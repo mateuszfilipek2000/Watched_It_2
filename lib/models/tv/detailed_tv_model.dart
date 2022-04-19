@@ -1,8 +1,9 @@
 import 'package:watched_it_2/models/genre_model.dart';
+import 'package:watched_it_2/models/people/person_model.dart';
 import 'package:watched_it_2/models/production_country_model.dart';
-import 'package:watched_it_2/models/season_model.dart';
+import 'package:watched_it_2/models/tv/season_model.dart';
 import 'package:watched_it_2/models/spoken_language_model.dart';
-import 'package:watched_it_2/models/tv_model.dart';
+import 'package:watched_it_2/models/tv/tv_model.dart';
 
 class DetailedTv extends Tv {
   DetailedTv({
@@ -54,7 +55,7 @@ class DetailedTv extends Tv {
         );
 
   //TODO CREATE PERSON
-  final List<CreatedBy> createdBy;
+  final List<Person> createdBy;
   final List<int> episodeRunTime;
   final List<Genre> genres;
   final String homepage;
@@ -76,8 +77,8 @@ class DetailedTv extends Tv {
 
   factory DetailedTv.fromJson(Map<String, dynamic> json) => DetailedTv(
         backdropPath: json["backdrop_path"],
-        createdBy: List<CreatedBy>.from(
-            json["created_by"].map((x) => CreatedBy.fromJson(x))),
+        createdBy: List<Person>.from(
+            json["created_by"].map((x) => Person.fromJson(x))),
         episodeRunTime: List<int>.from(json["episode_run_time"].map((x) => x)),
         firstAirDate: DateTime.parse(json["first_air_date"]),
         genres: List<Genre>.from(json["genres"].map((x) => Genre.fromJson(x))),

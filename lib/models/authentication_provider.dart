@@ -1,4 +1,4 @@
-import 'package:watched_it_2/models/user_model.dart';
+import 'package:watched_it_2/models/people/user_model.dart';
 
 abstract class AuthenticationProvider {
   Future<User> logIn({

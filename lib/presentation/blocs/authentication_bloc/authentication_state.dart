@@ -1,4 +1,4 @@
-import 'package:watched_it_2/models/user_model.dart';
+import 'package:watched_it_2/models/people/user_model.dart';
 import 'package:flutter/foundation.dart' show immutable;
 
 @immutable

@@ -5,7 +5,7 @@
 import 'dart:convert';
 
 import 'package:watched_it_2/models/genre_model.dart';
-import 'package:watched_it_2/models/movie_model.dart';
+import 'package:watched_it_2/models/movie/movie_model.dart';
 import 'package:watched_it_2/models/production_company_model.dart';
 import 'package:watched_it_2/models/production_country_model.dart';
 import 'package:watched_it_2/models/spoken_language_model.dart';
@@ -17,31 +17,31 @@ import 'package:watched_it_2/models/spoken_language_model.dart';
 
 class DetailedMovie extends Movie {
   DetailedMovie({
-    required adult,
-    required backdropPath,
     required this.belongsToCollection,
     required this.budget,
     required this.genres,
     required this.homepage,
-    required id,
     required this.imdbId,
-    required originalLanguage,
-    required originalTitle,
-    required overview,
-    required popularity,
-    required posterPath,
     required this.productionCompanies,
     required this.productionCountries,
-    required releaseDate,
     required this.revenue,
     required this.runtime,
     required this.spokenLanguages,
     required this.status,
     required this.tagline,
-    required title,
-    required video,
-    required voteAverage,
-    required voteCount,
+    required String title,
+    required bool adult,
+    required String? backdropPath,
+    required bool video,
+    required double voteAverage,
+    required int voteCount,
+    required int id,
+    required String originalLanguage,
+    required String originalTitle,
+    required String overview,
+    required double popularity,
+    required String? posterPath,
+    required DateTime releaseDate,
   }) : super(
           posterPath: posterPath,
           adult: adult,

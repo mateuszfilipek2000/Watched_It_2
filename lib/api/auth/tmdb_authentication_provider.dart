@@ -1,5 +1,5 @@
 import 'package:watched_it_2/models/authentication_provider.dart';
-import 'package:watched_it_2/models/user_model.dart';
+import 'package:watched_it_2/models/people/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 

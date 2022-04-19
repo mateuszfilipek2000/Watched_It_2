@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:watched_it_2/api/interfaces/authentication_interface.dart';
-import 'package:watched_it_2/models/user_model.dart';
+import 'package:watched_it_2/models/people/user_model.dart';
 
 class TmdbAuthentication implements AuthenticationInterface {
   @override
