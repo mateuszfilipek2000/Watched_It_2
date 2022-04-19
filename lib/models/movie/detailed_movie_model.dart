@@ -5,6 +5,7 @@
 import 'dart:convert';
 
 import 'package:watched_it_2/models/genre_model.dart';
+import 'package:watched_it_2/models/movie_model.dart';
 import 'package:watched_it_2/models/production_company_model.dart';
 import 'package:watched_it_2/models/production_country_model.dart';
 import 'package:watched_it_2/models/spoken_language_model.dart';
@@ -14,60 +15,62 @@ import 'package:watched_it_2/models/spoken_language_model.dart';
 
 // String movieToJson(DetailedMovie data) => json.encode(data.toJson());
 
-class DetailedMovie {
+class DetailedMovie extends Movie {
   DetailedMovie({
-    required this.adult,
-    required this.backdropPath,
+    required adult,
+    required backdropPath,
     required this.belongsToCollection,
     required this.budget,
     required this.genres,
     required this.homepage,
-    required this.id,
+    required id,
     required this.imdbId,
-    required this.originalLanguage,
-    required this.originalTitle,
-    required this.overview,
-    required this.popularity,
-    required this.posterPath,
+    required originalLanguage,
+    required originalTitle,
+    required overview,
+    required popularity,
+    required posterPath,
     required this.productionCompanies,
     required this.productionCountries,
-    required this.releaseDate,
+    required releaseDate,
     required this.revenue,
     required this.runtime,
     required this.spokenLanguages,
     required this.status,
     required this.tagline,
-    required this.title,
-    required this.video,
-    required this.voteAverage,
-    required this.voteCount,
-  });
+    required title,
+    required video,
+    required voteAverage,
+    required voteCount,
+  }) : super(
+          posterPath: posterPath,
+          adult: adult,
+          overview: overview,
+          releaseDate: releaseDate,
+          genreIds: genres.map((e) => e.id).toList(),
+          id: id,
+          originalLanguage: originalLanguage,
+          originalTitle: originalTitle,
+          title: title,
+          backdropPath: backdropPath,
+          popularity: popularity,
+          voteCount: voteCount,
+          voteAverage: voteAverage,
+          video: video,
+        );
 
-  final bool adult;
-  final String? backdropPath;
   final dynamic belongsToCollection;
   final int budget;
   final List<Genre> genres;
   final String? homepage;
-  final int id;
   final String? imdbId;
-  final String originalLanguage;
-  final String originalTitle;
-  final String? overview;
-  final double popularity;
-  final String? posterPath;
   final List<ProductionCompany> productionCompanies;
   final List<ProductionCountry> productionCountries;
-  final DateTime releaseDate;
   final int revenue;
   final int? runtime;
   final List<SpokenLanguage> spokenLanguages;
   final String status;
   final String? tagline;
-  final String title;
-  final bool video;
-  final double voteAverage;
-  final int voteCount;
 
   factory DetailedMovie.fromJson(Map<String, dynamic> json) => DetailedMovie(
         adult: json["adult"],
@@ -101,36 +104,4 @@ class DetailedMovie {
         voteAverage: json["vote_average"].toDouble(),
         voteCount: json["vote_count"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "adult": adult,
-        "backdrop_path": backdropPath,
-        "belongs_to_collection": belongsToCollection,
-        "budget": budget,
-        "genres": List<dynamic>.from(genres.map((x) => x.toJson())),
-        "homepage": homepage,
-        "id": id,
-        "imdb_id": imdbId,
-        "original_language": originalLanguage,
-        "original_title": originalTitle,
-        "overview": overview,
-        "popularity": popularity,
-        "poster_path": posterPath,
-        "production_companies":
-            List<dynamic>.from(productionCompanies.map((x) => x.toJson())),
-        "production_countries":
-            List<dynamic>.from(productionCountries.map((x) => x.toJson())),
-        "release_date":
-            "${releaseDate.year.toString().padLeft(4, '0')}-${releaseDate.month.toString().padLeft(2, '0')}-${releaseDate.day.toString().padLeft(2, '0')}",
-        "revenue": revenue,
-        "runtime": runtime,
-        "spoken_languages":
-            List<dynamic>.from(spokenLanguages.map((x) => x.toJson())),
-        "status": status,
-        "tagline": tagline,
-        "title": title,
-        "video": video,
-        "vote_average": voteAverage,
-        "vote_count": voteCount,
-      };
 }

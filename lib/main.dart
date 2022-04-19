@@ -1,6 +1,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:watched_it_2/core/config/approuter.dart';
+import 'package:watched_it_2/presentation/screens/login_screen/login_screen.dart';
 
 void main() {
   runApp(DevicePreview(builder: (context) {
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       ),
       // home: const Text('Flutter Demo Home Page'),
       onGenerateRoute: AppRouter.onGenerateRoute,
+      initialRoute: LoginScreen.routeName,
     );
   }
 }
