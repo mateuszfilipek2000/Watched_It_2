@@ -1,0 +1,5 @@
+import 'dart:io';
+
+const String apiKeyV3 = "a79b97a4a5766aa21ed15ebeb232db9a";
+const String apiReadAccessTokenV4 =
+    "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNzliOTdhNGE1NzY2YWEyMWVkMTVlYmViMjMyZGI5YSIsInN1YiI6IjVmODQ3OThjY2JhMzZmMDAzNTM1ZmFlMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.eoUQ0R0L7n9klQiX0ow3cZY4hajwUnQ6WLEz-krHvJY";
