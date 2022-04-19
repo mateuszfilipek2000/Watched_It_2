@@ -38,6 +38,9 @@ dependencies:
   http: ^0.13.4
   device_preview: ^1.0.0
   flutter_bloc: ^8.0.1
+  url_launcher: ^6.0.20
+  flutter_hooks: ^0.18.3
+  equatable: ^2.0.3
 
 dev_dependencies:
   flutter_test:
