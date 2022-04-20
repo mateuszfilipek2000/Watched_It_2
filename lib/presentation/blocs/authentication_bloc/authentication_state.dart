@@ -1,4 +1,4 @@
-import 'package:watched_it_2/models/people/user_model.dart';
+import 'package:watched_it_2/models/user/user_model.dart';
 import 'package:flutter/foundation.dart' show immutable;
 
 @immutable
@@ -15,7 +15,7 @@ class AuthenticationStateLoggedIn extends AuthenticationState {
     required this.user,
   });
 
-  final User user;
+  final TmdbUser user;
 }
 
 class AuthenticationStateLoginFailure extends AuthenticationState {

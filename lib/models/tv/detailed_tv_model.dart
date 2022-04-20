@@ -54,7 +54,6 @@ class DetailedTv extends Tv {
           originCountry: originCountry,
         );
 
-  //TODO CREATE PERSON
   final List<Person> createdBy;
   final List<int> episodeRunTime;
   final List<Genre> genres;

@@ -1,7 +1,7 @@
-import 'package:watched_it_2/models/people/user_model.dart';
+import 'package:watched_it_2/models/user/tmdb_user_model.dart';
 
 abstract class AuthenticationProvider {
-  Future<User> logIn({
+  Future<TmdbUser> logIn({
     required String username,
     required String password,
   });
@@ -10,5 +10,5 @@ abstract class AuthenticationProvider {
 
   Future<void> initialize();
 
-  User? user;
+  TmdbUser? user;
 }

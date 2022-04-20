@@ -1,19 +1,8 @@
-// To parse this JSON data, do
-//
-//     final movie = movieFromJson(jsonString);
-
-import 'dart:convert';
-
 import 'package:watched_it_2/models/genre_model.dart';
 import 'package:watched_it_2/models/movie/movie_model.dart';
 import 'package:watched_it_2/models/production_company_model.dart';
 import 'package:watched_it_2/models/production_country_model.dart';
 import 'package:watched_it_2/models/spoken_language_model.dart';
-
-// DetailedMovie movieFromJson(String str) =>
-//     DetailedMovie.fromJson(json.decode(str));
-
-// String movieToJson(DetailedMovie data) => json.encode(data.toJson());
 
 class DetailedMovie extends Movie {
   DetailedMovie({

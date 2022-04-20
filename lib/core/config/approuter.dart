@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:watched_it_2/presentation/screens/login_screen/login_screen.dart';
 
 class AppRouter {
