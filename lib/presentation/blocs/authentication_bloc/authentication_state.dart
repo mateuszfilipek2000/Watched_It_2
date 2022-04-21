@@ -1,9 +1,13 @@
-import 'package:watched_it_2/models/user/user_model.dart';
+import 'package:watched_it_2/models/user/tmdb_user_model.dart';
 import 'package:flutter/foundation.dart' show immutable;
 
 @immutable
 abstract class AuthenticationState {
   const AuthenticationState();
+}
+
+class AuthenticationStateInitial extends AuthenticationState {
+  const AuthenticationStateInitial();
 }
 
 class AuthenticationStateLoading extends AuthenticationState {
@@ -16,6 +20,11 @@ class AuthenticationStateLoggedIn extends AuthenticationState {
   });
 
   final TmdbUser user;
+}
+
+class AuthenticationStateWaitingForConfirmation
+    extends AuthenticationStateLoading {
+  const AuthenticationStateWaitingForConfirmation();
 }
 
 class AuthenticationStateLoginFailure extends AuthenticationState {

@@ -13,6 +13,10 @@ class AuthenticationEventInitialize extends AuthenticationEvent {
   const AuthenticationEventInitialize();
 }
 
+class AuthenticationEventConfirmDialog extends AuthenticationEvent {
+  const AuthenticationEventConfirmDialog();
+}
+
 class AuthenticationEventLogIn extends AuthenticationEvent {
   const AuthenticationEventLogIn({
     required this.username,

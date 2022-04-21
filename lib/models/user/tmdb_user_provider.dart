@@ -11,7 +11,7 @@ class TmdbUserProvider implements UserProvider {
 
   /// retrieve user details
   @override
-  Future<DetailedUser> getDetails(int id) async {
+  Future<DetailedUser> getDetails(String id) async {
     final response = await http.get(
       Uri.parse(
         "https://api.themoviedb.org/3/account?api_key=$kApiKeyV3&session_id=${user.sessionId}",
