@@ -40,6 +40,7 @@ class TmdbApiConfiguration
 
     if (currentConfig != null) {
       try {
+        final decodedJson = json.decode(currentConfig);
         final restoredConfig =
             TmdbApiConfiguration.fromJson(json.decode(currentConfig));
 
@@ -53,6 +54,7 @@ class TmdbApiConfiguration
           _generationDate = restoredConfig._generationDate;
           _languageConfiguration = restoredConfig._languageConfiguration;
 
+          log("Succesfully retrieved existing api configuration");
           return;
         }
       } catch (e) {

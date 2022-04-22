@@ -7,7 +7,8 @@ class CountryConfiguration {
 
   factory CountryConfiguration.fromJson(Map<String, dynamic> json) =>
       CountryConfiguration(
-        countries: json["languages"].map((e) => Country.fromJson(e)).toList(),
+        countries: List<Country>.from(
+            json["countries"].map((e) => Country.fromJson(e))),
       );
 
   Map<String, dynamic> toJson() => {

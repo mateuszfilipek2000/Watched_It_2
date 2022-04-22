@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 class LanguageConfiguration {
   const LanguageConfiguration({
     required this.languages,
@@ -7,7 +9,13 @@ class LanguageConfiguration {
 
   factory LanguageConfiguration.fromJson(Map<String, dynamic> json) =>
       LanguageConfiguration(
-        languages: json["languages"].map((e) => Language.fromJson(e)).toList(),
+        languages: List<Language>.from(
+            json["languages"].map((e) => Language.fromJson(e))),
+        // languages: json["languages"]
+        //     .map((e) => print(e)
+        //         // return Language.fromJson(e);
+        //         )
+        //     .toList(),
       );
 
   Map<String, dynamic> toJson() => {
