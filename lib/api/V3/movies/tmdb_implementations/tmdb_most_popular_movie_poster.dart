@@ -1,20 +1,22 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:watched_it_2/api/V3/movies/interfaces/imost_popular_movie_poster.dart';
-import 'package:watched_it_2/api/interfaces/tmdb_image_url.dart';
+import 'package:watched_it_2/api/interfaces/iimage_url_provider.dart';
 import 'package:watched_it_2/core/config/api_keys.dart';
 import 'package:watched_it_2/models/movie/movie_model.dart';
 
-class TmdbMostPopularMoviePoster implements IMostPopularMoviePoster {
-  const TmdbMostPopularMoviePoster();
+class TmdbMostPopularMovieImage implements IMostPopularMovieImage {
+  const TmdbMostPopularMovieImage();
 
   /// returns partial url, you need to use image url provider in order to get
   /// full image url
   @override
-  Future<String> getMostPopularMoviePosterUrl() async {
+  Future<String> getMostPopularMovieImageUrl({
+    required ImageType imageType,
+  }) async {
     final response = await http.get(Uri.parse(
         "https://api.themoviedb.org/3/movie/popular?api_key=$kApiKeyV3&language=en-US&page=1"));
 
@@ -25,19 +27,17 @@ class TmdbMostPopularMoviePoster implements IMostPopularMoviePoster {
         final List<dynamic> results = json.decode(response.body)["results"];
 
         //looking for a movie with a non null poster path
-        final movieWithPoster = Movie.fromJson(
-          results.firstWhere(
-            (element) => element["poster_path"] != null,
-          ),
+        final movieWithImage = results.firstWhere(
+          (element) => element["${describeEnum(imageType)}_path"] != null,
         );
 
-        if (movieWithPoster.posterPath != null) {
-          final posterPath = movieWithPoster.posterPath!;
-          return posterPath;
+        if (movieWithImage["${describeEnum(imageType)}_path"] != null) {
+          final imagePath = movieWithImage["${describeEnum(imageType)}_path"];
+          return imagePath;
         }
-        log("None of the fetched movies has had a poster");
+        log("None of the fetched movies has a ${describeEnum(imageType)}");
         log(results.toString());
-        throw Exception("Couldn't find movie with poster");
+        throw Exception("Couldn't find movie with ${describeEnum(imageType)}");
       } catch (e) {
         log("Couldn't create movie object from response");
         log("${response.statusCode}: ${response.body}");

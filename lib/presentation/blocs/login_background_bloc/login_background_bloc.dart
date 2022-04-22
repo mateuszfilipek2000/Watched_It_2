@@ -12,16 +12,19 @@ class LoginBackgroundBloc
   LoginBackgroundBloc({
     required this.topMoviePosterProvider,
     required this.imageUrlProvider,
+    required this.imageType,
   }) : super(const LoginBackgroundInitialState()) {
     on<LoginBackgroundLoadImageEvent>((event, emit) async {
       emit(const LoginBackgroundLoadingState());
 
       try {
         final partialImageUrl =
-            await topMoviePosterProvider.getMostPopularMoviePosterUrl();
+            await topMoviePosterProvider.getMostPopularMovieImageUrl(
+          imageType: imageType,
+        );
         final imageUrl = await imageUrlProvider.getFullImageUrl(
           url: partialImageUrl,
-          imageType: ImageType.poster,
+          imageType: imageType,
           size: 60,
         );
         final bundle = NetworkAssetBundle(Uri.parse(imageUrl));
@@ -34,6 +37,7 @@ class LoginBackgroundBloc
     });
   }
 
-  final IMostPopularMoviePoster topMoviePosterProvider;
+  final IMostPopularMovieImage topMoviePosterProvider;
   final IImageUrlProvider imageUrlProvider;
+  final ImageType imageType;
 }

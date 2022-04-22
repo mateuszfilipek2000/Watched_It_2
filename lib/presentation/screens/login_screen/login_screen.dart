@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:watched_it_2/api/V3/configuration/implementations/tmdb_api_configuration.dart';
 import 'package:watched_it_2/api/V3/configuration/interfaces/iapi_configuration.dart';
 import 'package:watched_it_2/api/V3/movies/tmdb_implementations/tmdb_most_popular_movie_poster.dart';
+import 'package:watched_it_2/api/interfaces/iimage_url_provider.dart';
 import 'package:watched_it_2/api/interfaces/tmdb_image_url.dart';
 import 'package:watched_it_2/presentation/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:watched_it_2/presentation/blocs/authentication_bloc/authentication_events.dart';
@@ -28,14 +29,23 @@ class _LoginScreenState extends State<LoginScreen>
   late AnimationController _backgroundOpacityAnimationController;
   late Animation<double> _backgroundOpacityAnimation;
 
+  late AnimationController _loginButtonOpacityAnimationController;
+  late Animation<double> _loginButtonOpacityAnimation;
+
   @override
   void initState() {
     // instantiating controllers
-
     _backgroundOpacityAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(
-        seconds: 4,
+        seconds: 3,
+      ),
+    );
+
+    _loginButtonOpacityAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        seconds: 1,
       ),
     );
 
@@ -46,9 +56,13 @@ class _LoginScreenState extends State<LoginScreen>
         curve: Curves.easeIn,
       ),
     );
-    //background position animation is responsible for a simple 'parallax' effect
 
-    //TODO CREATE BACKGROUND POSITION ANIMATION
+    _loginButtonOpacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _loginButtonOpacityAnimationController,
+        curve: Curves.easeInQuad,
+      ),
+    );
 
     super.initState();
   }
@@ -56,21 +70,18 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   void dispose() {
     _backgroundOpacityAnimationController.dispose();
+    _loginButtonOpacityAnimationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    // final size = MediaQuery.of(context).size;
     return Scaffold(
       body: BlocConsumer<AuthenticationBloc, AuthenticationState>(
         bloc: context.read<AuthenticationBloc>()
           ..add(const AuthenticationEventInitialize()),
         listener: (context, state) {
-          // if (state is AuthenticationStateInitial) {
-          //   context.read<AuthenticationBloc>().add(
-          //         const AuthenticationEventInitialize(),
-          //       );
-          // } else
           if (state is AuthenticationStateLoggedIn) {
             Navigator.pushNamed(context, DashboardScreen.routeName);
           } else if (state is AuthenticationStateLoginFailure) {
@@ -109,57 +120,83 @@ class _LoginScreenState extends State<LoginScreen>
                 );
               },
             );
+          } else if (state is AuthenticationStateLoggedOut) {
+            _loginButtonOpacityAnimationController.forward();
           }
         },
         builder: (context, state) {
           return Stack(
             fit: StackFit.expand,
             children: [
-              BlocProvider(
-                create: (context) => LoginBackgroundBloc(
-                  topMoviePosterProvider: const TmdbMostPopularMoviePoster(),
-                  imageUrlProvider: TmdbImageUrlProvider(
-                    // IApiConfiguration implements image configuration provider
-                    imageConfigurationProvider:
-                        RepositoryProvider.of<TmdbApiConfiguration>(context),
+              LayoutBuilder(builder: (context, constraints) {
+                late ImageType imageType = ImageType.poster;
+                if (constraints.maxWidth > constraints.maxHeight) {
+                  imageType = ImageType.backdrop;
+                }
+                return BlocProvider(
+                  create: (context) => LoginBackgroundBloc(
+                    topMoviePosterProvider: const TmdbMostPopularMovieImage(),
+                    imageUrlProvider: TmdbImageUrlProvider(
+                      // IApiConfiguration implements image configuration provider
+                      imageConfigurationProvider:
+                          RepositoryProvider.of<TmdbApiConfiguration>(context),
+                    ),
+                    imageType: imageType,
+                  )..add(const LoginBackgroundLoadImageEvent()),
+                  child:
+                      BlocConsumer<LoginBackgroundBloc, LoginBackgroundState>(
+                    listener: (context, state) {
+                      if (state is LoginBackgroundLoadingSuccessState) {
+                        _backgroundOpacityAnimationController.forward();
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is LoginBackgroundLoadingSuccessState) {
+                        return AnimatedBuilder(
+                            animation: _backgroundOpacityAnimation,
+                            child: Image.memory(
+                              state.image,
+                              fit: BoxFit.cover,
+                            ),
+                            builder: (context, child) {
+                              return Opacity(
+                                opacity: _backgroundOpacityAnimation.value,
+                                child: child,
+                              );
+                            });
+                      } else {
+                        return const SizedBox.shrink();
+                      }
+                    },
                   ),
-                )..add(const LoginBackgroundLoadImageEvent()),
-                child: BlocConsumer<LoginBackgroundBloc, LoginBackgroundState>(
-                  listener: (context, state) {
-                    if (state is LoginBackgroundLoadingSuccessState) {
-                      _backgroundOpacityAnimationController.forward();
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is LoginBackgroundLoadingSuccessState) {
-                      return AnimatedBuilder(
-                          animation: _backgroundOpacityAnimation,
-                          child: Image.memory(
-                            state.image,
-                            fit: BoxFit.cover,
-                          ),
-                          builder: (context, child) {
-                            return Opacity(
-                              opacity: _backgroundOpacityAnimation.value,
-                              child: child,
-                            );
-                          });
-                    } else {
-                      return const SizedBox.shrink();
-                    }
-                  },
-                ),
-              ),
+                );
+              }),
               Center(
-                child: TextButton(
-                  child: const Text("Log in"),
-                  onPressed: () => context.read<AuthenticationBloc>().add(
-                        const AuthenticationEventLogIn(
-                          username: "",
-                          password: "",
-                        ),
+                child: AnimatedBuilder(
+                    animation: _loginButtonOpacityAnimation,
+                    child: ElevatedButton(
+                      child: const Icon(
+                        Icons.login_rounded,
+                        size: 25.0,
                       ),
-                ),
+                      style: ElevatedButton.styleFrom(
+                        shape: const CircleBorder(),
+                        padding: const EdgeInsets.all(30.0),
+                        primary: Theme.of(context).primaryColor,
+                      ),
+                      onPressed: () => context.read<AuthenticationBloc>().add(
+                            const AuthenticationEventLogIn(
+                              username: "",
+                              password: "",
+                            ),
+                          ),
+                    ),
+                    builder: (context, child) {
+                      return Opacity(
+                        opacity: _loginButtonOpacityAnimation.value,
+                        child: child,
+                      );
+                    }),
               ),
             ],
           );
