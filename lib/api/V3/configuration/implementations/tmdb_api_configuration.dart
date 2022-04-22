@@ -26,6 +26,13 @@ class TmdbApiConfiguration
         _countryConfiguration = countryConfiguration,
         _imageConfiguration = imageConfiguration;
 
+  /// retrieves basic api configuration, information about image sizes,
+  /// available languages etc.
+  /// Sends api request to fetch new configs only if the previous ones are
+  /// older than 7 days, or are invalid/empty.
+  /// If you want to force getting new configs, then just simply remove
+  /// existing ones from shared preferences.
+  /// Config is saved in shared prefs under the key of runtimeType.toString()
   Future<void> getApiConfiguration() async {
     // checking if configurations are already saved in shared prefs
     final prefs = await SharedPreferences.getInstance();
