@@ -65,9 +65,15 @@ class TmdbApiConfiguration
     // configs are too old/do not exist/are corrupted, getting new data
 
     // getting all the necessary configurations
-    _languageConfiguration = await getLanguageConfiguration();
-    _countryConfiguration = await getCountryConfiguration();
-    _imageConfiguration = await getImageConfiguration();
+    try {
+      _languageConfiguration = await super.getLanguageConfiguration();
+      _countryConfiguration = await super.getCountryConfiguration();
+      _imageConfiguration = await super.getImageConfiguration();
+    } catch (e) {
+      log(e.toString());
+      log("Couldn't retrieve configuration");
+      rethrow;
+    }
     _generationDate = DateTime.now();
 
     // retrieved configurations are now getting saved into shared prefs
