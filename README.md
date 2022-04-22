@@ -1,16 +1,21 @@
-# watched_it_2
+# Watched It 2
 
-A new Flutter project.
+"Watched It 2 (or too!)" is my second attempt at creating The Movie Database client. The previous one quickly got really messy, that's why I am completely redoing all of the code! The major difference between this, and the previous one, is different approach to state management - this one is using flutter bloc. I hope that this one will turn out better than the previous one... anyhoo I am still learning, so there will probably be a lot of boilerplate code, I'll appreciate any advices!
 
-## Getting Started
+TMDB ATTRIBUTION:
+This product uses the TMDB API but is not endorsed or certified by TMDB.
 
-This project is a starting point for a Flutter application.
+Huge thanks to the TMDB team for providing such a wonderful API!
 
-A few resources to get you started if this is your first Flutter project:
+## Used packages: 
+    Packages currently added to pubspec.yaml (They might not be used, as of right now, but will probably be used in future):
+  * cupertino_icons: ^1.0.2
+  * shared_preferences: ^2.0.13
+  * http: ^0.13.4
+  * device_preview: ^1.0.0
+  * flutter_bloc: ^8.0.1
+  * url_launcher: ^6.0.20
+  * flutter_hooks: ^0.18.3
+  * equatable: ^2.0.3
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## UI Preview
