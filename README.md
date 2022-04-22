@@ -19,3 +19,6 @@ Huge thanks to the TMDB team for providing such a wonderful API!
   * equatable: ^2.0.3
 
 ## UI Preview
+
+https://user-images.githubusercontent.com/43029034/164781904-40c7f940-468d-4fa6-b51e-8a92ad404b4f.mp4
+
