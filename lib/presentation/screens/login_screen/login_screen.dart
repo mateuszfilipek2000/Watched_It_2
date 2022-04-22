@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:watched_it_2/api/V3/movies/tmdb_implementations/tmdb_top_movie_poster.dart';
+import 'package:watched_it_2/api/V3/movies/tmdb_implementations/tmdb_most_popular_movie_poster.dart';
 import 'package:watched_it_2/presentation/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:watched_it_2/presentation/blocs/authentication_bloc/authentication_events.dart';
 import 'package:watched_it_2/presentation/blocs/authentication_bloc/authentication_state.dart';
@@ -134,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen>
             children: [
               BlocProvider(
                 create: (context) => LoginBackgroundBloc(
-                  topMoviePosterProvider: TmdbTopMoviePoster(),
+                  topMoviePosterProvider: TmdbMostPopularMoviePoster(),
                 ),
                 child: BlocConsumer<LoginBackgroundBloc, LoginBackgroundState>(
                   listener: (context, state) {
