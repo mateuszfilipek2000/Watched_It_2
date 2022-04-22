@@ -1,13 +1,18 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:watched_it_2/api/V3/movies/interfaces/imost_popular_movie_poster.dart';
+import 'package:watched_it_2/api/interfaces/tmdb_image_url.dart';
 import 'package:watched_it_2/core/config/api_keys.dart';
 import 'package:watched_it_2/models/movie/movie_model.dart';
 
 class TmdbMostPopularMoviePoster implements IMostPopularMoviePoster {
   const TmdbMostPopularMoviePoster();
+
+  /// returns partial url, you need to use image url provider in order to get
+  /// full image url
   @override
   Future<String> getMostPopularMoviePosterUrl() async {
     final response = await http.get(Uri.parse(
@@ -26,9 +31,9 @@ class TmdbMostPopularMoviePoster implements IMostPopularMoviePoster {
           ),
         );
 
-        //TODO ADD FULL IMAGE URL RETRIEVING
         if (movieWithPoster.posterPath != null) {
-          return movieWithPoster.posterPath!;
+          final posterPath = movieWithPoster.posterPath!;
+          return posterPath;
         }
         log("None of the fetched movies has had a poster");
         log(results.toString());

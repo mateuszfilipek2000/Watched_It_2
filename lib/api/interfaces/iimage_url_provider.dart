@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart' show immutable;
 
 @immutable
-abstract class IImageUrl {
+abstract class IImageUrlProvider {
   /// pass size as a double from 0-100. For example:
   /// 50 to get an image of half maximum size
   /// 100 to get an image of the highest possible size

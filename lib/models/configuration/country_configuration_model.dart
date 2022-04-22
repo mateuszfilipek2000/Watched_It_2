@@ -1,5 +1,22 @@
 class CountryConfiguration {
   const CountryConfiguration({
+    required this.countries,
+  });
+
+  final List<Country> countries;
+
+  factory CountryConfiguration.fromJson(Map<String, dynamic> json) =>
+      CountryConfiguration(
+        countries: json["languages"].map((e) => Country.fromJson(e)).toList(),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "countries": countries.map((e) => e.toJson()).toList(),
+      };
+}
+
+class Country {
+  const Country({
     required this.iso31661,
     required this.englishName,
   });
@@ -7,8 +24,7 @@ class CountryConfiguration {
   final String iso31661;
   final String englishName;
 
-  factory CountryConfiguration.fromJson(Map<String, dynamic> json) =>
-      CountryConfiguration(
+  factory Country.fromJson(Map<String, dynamic> json) => Country(
         iso31661: json["iso_3166_1"],
         englishName: json["english_name"],
       );

@@ -1,5 +1,22 @@
 class LanguageConfiguration {
   const LanguageConfiguration({
+    required this.languages,
+  });
+
+  final List<Language> languages;
+
+  factory LanguageConfiguration.fromJson(Map<String, dynamic> json) =>
+      LanguageConfiguration(
+        languages: json["languages"].map((e) => Language.fromJson(e)).toList(),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "languages": languages.map((e) => e.toJson()).toList(),
+      };
+}
+
+class Language {
+  const Language({
     required this.iso6391,
     required this.englishName,
     required this.name,
@@ -9,8 +26,7 @@ class LanguageConfiguration {
   final String englishName;
   final String name;
 
-  factory LanguageConfiguration.fromJson(Map<String, dynamic> json) =>
-      LanguageConfiguration(
+  factory Language.fromJson(Map<String, dynamic> json) => Language(
         iso6391: json["iso_639_1"],
         englishName: json["english_name"],
         name: json["name"],

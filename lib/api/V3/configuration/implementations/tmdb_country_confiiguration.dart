@@ -15,9 +15,11 @@ class TmdbCountryConfiguration implements ICountryConfiguration {
     );
 
     if (response.statusCode == 200) {
-      final decodedResponse = json.decode(response.body);
+      final List<dynamic> decodedResponse = json.decode(response.body);
       try {
-        return CountryConfiguration.fromJson(decodedResponse);
+        return CountryConfiguration(
+          countries: decodedResponse.map((e) => Country.fromJson(e)).toList(),
+        );
       } catch (e) {
         log("Couldn't parse country configuration");
         log(response.toString());

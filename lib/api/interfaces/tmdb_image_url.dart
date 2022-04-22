@@ -1,10 +1,12 @@
 import 'dart:developer';
 
 import 'package:watched_it_2/api/V3/configuration/interfaces/iimageconfiguration.dart';
-import 'package:watched_it_2/api/interfaces/iimage_url.dart';
+import 'package:watched_it_2/api/interfaces/iimage_url_provider.dart';
 
-class TmdbImageUrlProvider implements IImageUrl {
-  const TmdbImageUrlProvider(this.imageConfigurationProvider);
+class TmdbImageUrlProvider implements IImageUrlProvider {
+  const TmdbImageUrlProvider({
+    required this.imageConfigurationProvider,
+  });
 
   @override
   getFullImageUrl({
@@ -27,25 +29,26 @@ class TmdbImageUrlProvider implements IImageUrl {
     switch (imageType) {
       case ImageType.logo:
         final qualityIndex =
-            (size / 100 * imageConfiguration.logoSizes.length).round();
+            (size / 100 * (imageConfiguration.logoSizes.length - 1)).round();
         return secureBase + imageConfiguration.logoSizes[qualityIndex] + url;
       case ImageType.backdrop:
         final qualityIndex =
-            (size / 100 * imageConfiguration.backdropSizes.length).round();
+            (size / 100 * (imageConfiguration.backdropSizes.length - 1))
+                .round();
         return secureBase +
             imageConfiguration.backdropSizes[qualityIndex] +
             url;
       case ImageType.poster:
         final qualityIndex =
-            (size / 100 * imageConfiguration.posterSizes.length).round();
+            (size / 100 * (imageConfiguration.posterSizes.length - 1)).round();
         return secureBase + imageConfiguration.posterSizes[qualityIndex] + url;
       case ImageType.still:
         final qualityIndex =
-            (size / 100 * imageConfiguration.stillSizes.length).round();
+            (size / 100 * (imageConfiguration.stillSizes.length - 1)).round();
         return secureBase + imageConfiguration.stillSizes[qualityIndex] + url;
       case ImageType.profile:
         final qualityIndex =
-            (size / 100 * imageConfiguration.profileSizes.length).round();
+            (size / 100 * (imageConfiguration.profileSizes.length - 1)).round();
         return secureBase + imageConfiguration.profileSizes[qualityIndex] + url;
     }
   }

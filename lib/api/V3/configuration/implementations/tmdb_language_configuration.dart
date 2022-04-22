@@ -15,11 +15,13 @@ class TmdbLanguageConfiguration implements ILanguageConfiguration {
     );
 
     if (response.statusCode == 200) {
-      final decodedResponse = json.decode(response.body);
+      final List<dynamic> decodedResponse = json.decode(response.body);
       try {
-        return LanguageConfiguration.fromJson(decodedResponse);
+        return LanguageConfiguration(
+          languages: decodedResponse.map((e) => Language.fromJson(e)).toList(),
+        );
       } catch (e) {
-        log("Couldn't parse langauge configuration");
+        log("Couldn't parse language configuration");
         log(response.toString());
         log(e.toString());
         rethrow;
@@ -27,7 +29,7 @@ class TmdbLanguageConfiguration implements ILanguageConfiguration {
     }
     // problem with the request
     log(response.toString());
-    log("Couldn't fetch langauge configuration");
-    throw Exception("Problem with langauge configuration request");
+    log("Couldn't fetch language configuration");
+    throw Exception("Problem with language configuration request");
   }
 }
