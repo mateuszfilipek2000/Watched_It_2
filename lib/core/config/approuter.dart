@@ -6,7 +6,6 @@ class AppRouter {
   static Route onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        //TODO ADD SAVED LOGIN CREDENTIALS CHECK
         return MaterialPageRoute(
           builder: (_) => const LoginScreen(),
           settings: settings,

@@ -40,7 +40,6 @@ class TmdbApiConfiguration
 
     if (currentConfig != null) {
       try {
-        final decodedJson = json.decode(currentConfig);
         final restoredConfig =
             TmdbApiConfiguration.fromJson(json.decode(currentConfig));
 

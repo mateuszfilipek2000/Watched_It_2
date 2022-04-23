@@ -39,8 +39,6 @@ class TmdbAuthenticationRepository implements AuthenticationRepository {
         log("succesfully made a request to confirm user details are vaild");
         // user is valid, saving
         user = _user;
-        // TODO THAT COULD BE A GOOD PLACE TO RETRIEVE SOME CONFIG INFO AS WELL
-
       }
     } catch (e) {
       log(e.toString());

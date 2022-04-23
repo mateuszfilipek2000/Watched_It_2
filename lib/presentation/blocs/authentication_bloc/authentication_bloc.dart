@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:watched_it_2/api/V3/auth/tmdb_authentication_repository.dart';
 import 'package:watched_it_2/models/authentication_provider.dart';

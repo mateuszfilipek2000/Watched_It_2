@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 class LanguageConfiguration {
   const LanguageConfiguration({
     required this.languages,

@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:watched_it_2/api/V3/movies/interfaces/imost_popular_movie_poster.dart';
 import 'package:watched_it_2/api/interfaces/iimage_url_provider.dart';
 import 'package:watched_it_2/core/config/api_keys.dart';
-import 'package:watched_it_2/models/movie/movie_model.dart';
 
 class TmdbMostPopularMovieImage implements IMostPopularMovieImage {
   const TmdbMostPopularMovieImage();

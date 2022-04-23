@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:watched_it_2/api/V3/configuration/implementations/tmdb_api_configuration.dart';
-import 'package:watched_it_2/api/V3/configuration/interfaces/iapi_configuration.dart';
 import 'package:watched_it_2/api/V3/movies/tmdb_implementations/tmdb_most_popular_movie_poster.dart';
 import 'package:watched_it_2/api/interfaces/iimage_url_provider.dart';
 import 'package:watched_it_2/api/interfaces/tmdb_image_url.dart';

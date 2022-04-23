@@ -1,11 +1,9 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:watched_it_2/api/V3/auth/tmdb_authentication_repository.dart';
 import 'package:watched_it_2/api/V3/configuration/implementations/tmdb_api_configuration.dart';
 import 'package:watched_it_2/core/config/approuter.dart';
-import 'package:watched_it_2/models/authentication_provider.dart';
 import 'package:watched_it_2/presentation/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:watched_it_2/presentation/screens/login_screen/login_screen.dart';
 

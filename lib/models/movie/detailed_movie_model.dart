@@ -1,10 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:watched_it_2/models/genre_model.dart';
 import 'package:watched_it_2/models/movie/movie_model.dart';
 import 'package:watched_it_2/models/production_company_model.dart';
 import 'package:watched_it_2/models/production_country_model.dart';
 import 'package:watched_it_2/models/spoken_language_model.dart';
 
-class DetailedMovie extends Movie {
+class DetailedMovie extends Movie with EquatableMixin {
   DetailedMovie({
     required this.belongsToCollection,
     required this.budget,
@@ -93,4 +94,7 @@ class DetailedMovie extends Movie {
         voteAverage: json["vote_average"].toDouble(),
         voteCount: json["vote_count"],
       );
+
+  @override
+  List<Object?> get props => [id, title];
 }
