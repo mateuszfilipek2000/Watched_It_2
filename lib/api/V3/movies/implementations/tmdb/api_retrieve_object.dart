@@ -22,17 +22,6 @@ class ApiResponseObjectConversionError {
   }
 }
 
-class ApiResponseJsonDecodingError {
-  const ApiResponseJsonDecodingError(this.message);
-
-  final String message;
-
-  @override
-  String toString() {
-    return message;
-  }
-}
-
 class ApiRequestFailedError {
   const ApiRequestFailedError(this.response);
 
