@@ -6,7 +6,7 @@ class TmdbQueryBuilder {
   static Uri buildUri({
     String scheme = "https",
     String host = "api.themoviedb.org",
-    String language = "en_US",
+    String language = "en-US",
     required TmdbApiVersion version,
     required String path,
     required Map<String, String> queryParameters,
@@ -14,7 +14,7 @@ class TmdbQueryBuilder {
     return Uri(
       scheme: scheme,
       host: host,
-      path: version.name + path,
+      path: version.version + path,
       queryParameters: {
         "api_key": kApiKeyV3,
         "language": language,

@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
 
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:watched_it_2/api/V3/movies/implementations/tmdb/api_retrieve_object.dart';
 import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_account_states.dart';
@@ -10,6 +10,7 @@ import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_image
 import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_keywords.dart';
 import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_lists.dart';
 import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_recommendations.dart';
+import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_reviews.dart';
 import 'package:watched_it_2/api/V3/movies/interfaces/imovie_account_states.dart';
 import 'package:watched_it_2/api/V3/movies/interfaces/imovie_credits.dart';
 import 'package:watched_it_2/api/V3/movies/interfaces/imovie_details.dart';
@@ -17,6 +18,7 @@ import 'package:watched_it_2/api/V3/movies/interfaces/imovie_images.dart';
 import 'package:watched_it_2/api/V3/movies/interfaces/imovie_keywords.dart';
 import 'package:watched_it_2/api/V3/movies/interfaces/imovie_lists.dart';
 import 'package:watched_it_2/api/V3/movies/interfaces/imovie_recommendations.dart';
+import 'package:watched_it_2/api/V3/movies/interfaces/imovie_reviews.dart';
 import 'package:watched_it_2/models/account_states_model.dart';
 import 'package:watched_it_2/models/image_model.dart';
 import 'package:watched_it_2/models/keyword_model.dart';
@@ -29,6 +31,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:watched_it_2/models/movie/movie_model.dart';
 import 'package:watched_it_2/models/paged_results_model.dart';
 import 'package:watched_it_2/models/people/credits_model.dart';
+import 'package:watched_it_2/models/review_model.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -450,6 +453,75 @@ void main() {
 
       expect(
         () => interface.getRecommendations(
+          page: 1,
+          id: "3",
+        ),
+        throwsA(
+          isA<ApiRequestFailedError>(),
+        ),
+      );
+    });
+  });
+
+  group("Movie Reviews, checking if Paged Results work correctly", () {
+    late String file;
+    late IMovieReviews interface;
+    setUp(() async {
+      file = await rootBundle.loadString(
+        "assets/example_responses/movie/tmdb_get_movie_reviews.json",
+      );
+    });
+
+    test(
+        "Retreving movie reviews, successful request, should correctly parse paged results",
+        () async {
+      interface = TmdbMovieReviews(
+        dataSource: () async => http.Response(file, 200, headers: {
+          HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+        }),
+      );
+
+      final expected = pagedResultsFromJson(
+        json.decode(file),
+        Review.fromJson,
+      );
+
+      final generated = await interface.getMovieReviews(
+        page: 1,
+        id: "3",
+      );
+
+      expect(expected, generated);
+    });
+
+    test("Retreving movie reviews, successful request, fails conversion",
+        () async {
+      interface = TmdbMovieReviews(
+        dataSource: () async => http.Response(
+          "",
+          200,
+        ),
+      );
+
+      expect(
+        () => interface.getMovieReviews(
+          page: 1,
+          id: "3",
+        ),
+        throwsA(isA<ApiResponseObjectConversionError>()),
+      );
+    });
+
+    test("Retreving movie reviews, request fails", () async {
+      interface = TmdbMovieReviews(
+        dataSource: () async => http.Response(
+          "fail",
+          404,
+        ),
+      );
+
+      expect(
+        () => interface.getMovieReviews(
           page: 1,
           id: "3",
         ),
