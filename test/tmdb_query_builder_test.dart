@@ -4,11 +4,11 @@ import 'package:watched_it_2/core/config/api_keys.dart';
 
 void main() {
   group("Query Builder tests", () {
-    final String id = "3";
-    final int page = 1;
+    const String id = "3";
+    const int page = 1;
 
     test("testing for movie reviews url", () {
-      final String expected =
+      const String expected =
           "https://api.themoviedb.org/3/movie/$id/reviews?api_key=$kApiKeyV3&language=en-US&page=$page";
 
       final String created = TmdbQueryBuilder.buildUri(
@@ -23,7 +23,7 @@ void main() {
     });
 
     test("testing for movie recommendations url", () {
-      final String expected =
+      const String expected =
           "https://api.themoviedb.org/3/movie/$id/recommendations?api_key=$kApiKeyV3&language=en-US&page=$page";
 
       final String created = TmdbQueryBuilder.buildUri(
@@ -32,6 +32,34 @@ void main() {
         queryParameters: {
           "page": page.toString(),
         },
+      ).toString();
+
+      expect(expected, created);
+    });
+
+    test("testing for movie similar url", () {
+      const String expected =
+          "https://api.themoviedb.org/3/movie/$id/similar?api_key=$kApiKeyV3&language=en-US&page=$page";
+
+      final String created = TmdbQueryBuilder.buildUri(
+        version: TmdbApiVersion.v3,
+        path: "movie/$id/similar",
+        queryParameters: {
+          "page": page.toString(),
+        },
+      ).toString();
+
+      expect(expected, created);
+    });
+
+    test("testing for movie watch providers url", () {
+      const String expected =
+          "https://api.themoviedb.org/3/movie/$id/watch/providers?api_key=$kApiKeyV3&language=en-US";
+
+      final String created = TmdbQueryBuilder.buildUri(
+        version: TmdbApiVersion.v3,
+        path: "movie/$id/watch/providers",
+        queryParameters: {},
       ).toString();
 
       expect(expected, created);

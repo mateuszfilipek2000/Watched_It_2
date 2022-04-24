@@ -1,3 +1,7 @@
+import 'package:watched_it_2/models/justwatch_watch_providers.dart';
+import 'package:flutter/foundation.dart' show immutable;
+
+@immutable
 abstract class IMovieWatchProviders {
-  // TODO implement imoviewatchproviders
+  Future<JustWatchWatchProviders> getMovieWatchProviders(String id);
 }

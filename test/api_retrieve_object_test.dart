@@ -11,6 +11,8 @@ import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_keywo
 import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_lists.dart';
 import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_recommendations.dart';
 import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_reviews.dart';
+import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_similar.dart';
+import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_watch_providers.dart';
 import 'package:watched_it_2/api/V3/movies/interfaces/imovie_account_states.dart';
 import 'package:watched_it_2/api/V3/movies/interfaces/imovie_credits.dart';
 import 'package:watched_it_2/api/V3/movies/interfaces/imovie_details.dart';
@@ -19,8 +21,11 @@ import 'package:watched_it_2/api/V3/movies/interfaces/imovie_keywords.dart';
 import 'package:watched_it_2/api/V3/movies/interfaces/imovie_lists.dart';
 import 'package:watched_it_2/api/V3/movies/interfaces/imovie_recommendations.dart';
 import 'package:watched_it_2/api/V3/movies/interfaces/imovie_reviews.dart';
+import 'package:watched_it_2/api/V3/movies/interfaces/imovie_similar.dart';
+import 'package:watched_it_2/api/V3/movies/interfaces/imovie_watch_providers.dart';
 import 'package:watched_it_2/models/account_states_model.dart';
 import 'package:watched_it_2/models/image_model.dart';
+import 'package:watched_it_2/models/justwatch_watch_providers.dart';
 import 'package:watched_it_2/models/keyword_model.dart';
 import 'package:watched_it_2/models/list_element_model.dart';
 import 'package:watched_it_2/models/movie/detailed_movie_model.dart';
@@ -524,6 +529,149 @@ void main() {
         () => interface.getMovieReviews(
           page: 1,
           id: "3",
+        ),
+        throwsA(
+          isA<ApiRequestFailedError>(),
+        ),
+      );
+    });
+  });
+
+  group("Movie Similar, checking if Paged Results work correctly", () {
+    late String file;
+    late IMovieSimilar interface;
+    setUp(() async {
+      file = await rootBundle.loadString(
+        "assets/example_responses/movie/tmdb_get_movie_similar.json",
+      );
+    });
+
+    test(
+        "Retreving similar movies, successful request, should correctly parse paged results",
+        () async {
+      interface = TmdbMovieSimilar(
+        dataSource: () async => http.Response(
+          file,
+          200,
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+          },
+        ),
+      );
+
+      final expected = pagedResultsFromJson(
+        json.decode(file),
+        Movie.fromJson,
+      );
+
+      final generated = await interface.getSimilarMovies(
+        page: 1,
+        id: "3",
+      );
+
+      expect(expected, generated);
+    });
+
+    test("Retreving similar movies, successful request, fails conversion",
+        () async {
+      interface = TmdbMovieSimilar(
+        dataSource: () async => http.Response(
+          "",
+          200,
+        ),
+      );
+
+      expect(
+        () => interface.getSimilarMovies(
+          page: 1,
+          id: "3",
+        ),
+        throwsA(isA<ApiResponseObjectConversionError>()),
+      );
+    });
+
+    test("Retreving similar movies, request fails", () async {
+      interface = TmdbMovieSimilar(
+        dataSource: () async => http.Response(
+          "fail",
+          404,
+        ),
+      );
+
+      expect(
+        () => interface.getSimilarMovies(
+          page: 1,
+          id: "3",
+        ),
+        throwsA(
+          isA<ApiRequestFailedError>(),
+        ),
+      );
+    });
+  });
+
+  group("Movie Watch Providers", () {
+    late String file;
+    late IMovieWatchProviders interface;
+    setUp(() async {
+      file = await rootBundle.loadString(
+        "assets/example_responses/movie/tmdb_get_movie_watch_providers.json",
+      );
+    });
+
+    test(
+        "Retreving movie watch providers, successful request, should correctly parse paged results",
+        () async {
+      interface = TmdbMovieWatchProviders(
+        dataSource: () async => http.Response(
+          file,
+          200,
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+          },
+        ),
+      );
+
+      final expected = JustWatchWatchProviders.fromJson(
+        json.decode(file),
+      );
+
+      final generated = await interface.getMovieWatchProviders(
+        "3",
+      );
+
+      expect(expected, generated);
+    });
+
+    test(
+        "Retreving movie watch providers, successful request, fails conversion",
+        () async {
+      interface = TmdbMovieWatchProviders(
+        dataSource: () async => http.Response(
+          "",
+          200,
+        ),
+      );
+
+      expect(
+        () => interface.getMovieWatchProviders(
+          "3",
+        ),
+        throwsA(isA<ApiResponseObjectConversionError>()),
+      );
+    });
+
+    test("Retreving movie watch providers, request fails", () async {
+      interface = TmdbMovieWatchProviders(
+        dataSource: () async => http.Response(
+          "fail",
+          404,
+        ),
+      );
+
+      expect(
+        () => interface.getMovieWatchProviders(
+          "3",
         ),
         throwsA(
           isA<ApiRequestFailedError>(),

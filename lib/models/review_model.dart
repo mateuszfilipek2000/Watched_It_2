@@ -11,7 +11,7 @@ class Review with EquatableMixin {
     required this.url,
   });
 
-  final String author;
+  final String? author;
   final AuthorDetails authorDetails;
   final String content;
   final DateTime createdAt;
