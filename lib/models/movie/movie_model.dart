@@ -1,4 +1,6 @@
-class Movie {
+import 'package:equatable/equatable.dart';
+
+class Movie with EquatableMixin {
   Movie({
     required this.posterPath,
     required this.adult,
@@ -47,4 +49,11 @@ class Movie {
         video: json["video"],
         voteAverage: json["vote_average"].toDouble(),
       );
+
+  @override
+  List<Object?> get props => [
+        id,
+        originalTitle,
+        title,
+      ];
 }

@@ -1,4 +1,4 @@
-import 'package:watched_it_2/models/tv/crew_model.dart';
+import 'package:watched_it_2/models/crew_model.dart';
 
 class Episode {
   Episode({
