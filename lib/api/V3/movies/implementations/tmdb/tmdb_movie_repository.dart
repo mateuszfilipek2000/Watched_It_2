@@ -1,4 +1,4 @@
-import 'package:http/src/response.dart';
+import 'package:http/http.dart';
 import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_account_states.dart'
     hide UrlGenerator;
 import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_credits.dart'
@@ -24,18 +24,9 @@ import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movies_popu
     hide UrlGenerator;
 import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movies_top_rated.dart';
 import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movies_upcoming.dart';
-import 'package:watched_it_2/api/V3/movies/interfaces/imovie_repository.dart'
-    hide UrlGenerator;
-import 'package:watched_it_2/models/account_states_model.dart';
+import 'package:watched_it_2/api/V3/movies/interfaces/imovie_repository.dart';
 import 'package:watched_it_2/models/paged_results_model.dart';
 import 'package:watched_it_2/models/movie/movie_model.dart';
-import 'package:watched_it_2/models/movie/detailed_movie_model.dart';
-import 'package:watched_it_2/models/list_element_model.dart';
-import 'package:watched_it_2/models/keyword_model.dart';
-import 'package:watched_it_2/models/justwatch_watch_providers.dart';
-import 'package:watched_it_2/models/image_model.dart';
-import 'package:watched_it_2/models/people/credits_model.dart';
-import 'package:watched_it_2/models/review_model.dart';
 
 //TODO ADD CACHING, ADD RETRIEVING DATA USING APPEND TO RESPONSE
 class TmdbMovieRepository
@@ -136,83 +127,4 @@ class TmdbMovieRepository
       return newPage;
     }
   }
-
-  //METHODS UNDER THIS COMMENT PROBABLY WONT BE OVERRIDEN, BUT LEAVING THEM HERE FOR NOW
-  // @override
-  // Future<AccountStates> getAccountStates(String id,
-  //     {Future<Response> Function()? dataSource}) {
-  //   // TODO: implement getAccountStates
-  //   throw UnimplementedError();
-  // }
-
-  // @override
-  // Future<Credits> getMovieCredits(String id,
-  //     {Future<Response> Function()? dataSource}) {
-  //   // TODO: implement getMovieCredits
-  //   throw UnimplementedError();
-  // }
-
-  // @override
-  // Future<DetailedMovie> getMovieDetails(String id,
-  //     {Future<Response> Function()? dataSource}) {
-  //   // TODO: implement getMovieDetails
-  //   throw UnimplementedError();
-  // }
-
-  // @override
-  // Future<Images> getMovieImages(String id,
-  //     {Future<Response> Function()? dataSource}) {
-  //   // TODO: implement getMovieImages
-  //   throw UnimplementedError();
-  // }
-
-  // @override
-  // Future<Keywords> getMovieKeywords(String id,
-  //     {Future<Response> Function()? dataSource}) {
-  //   // TODO: implement getMovieKeywords
-  //   throw UnimplementedError();
-  // }
-
-  // @override
-  // Future<ListModel> getMovieLists(
-  //     {required String id,
-  //     int page = 1,
-  //     Future<Response> Function()? dataSource}) {
-  //   // TODO: implement getMovieLists
-  //   throw UnimplementedError();
-  // }
-
-  // @override
-  // Future<PagedResults<Review>> getMovieReviews(
-  //     {int page = 1,
-  //     required String id,
-  //     Future<Response> Function()? dataSource}) {
-  //   // TODO: implement getMovieReviews
-  //   throw UnimplementedError();
-  // }
-
-  // @override
-  // Future<JustWatchWatchProviders> getMovieWatchProviders(String id,
-  //     {Future<Response> Function()? dataSource}) {
-  //   // TODO: implement getMovieWatchProviders
-  //   throw UnimplementedError();
-  // }
-
-  // @override
-  // Future<PagedResults<Movie>> getRecommendations(
-  //     {required String id,
-  //     int page = 1,
-  //     Future<Response> Function()? dataSource}) {
-  //   // TODO: implement getRecommendations
-  //   throw UnimplementedError();
-  // }
-
-  // @override
-  // Future<PagedResults<Movie>> getSimilarMovies(
-  //     {required String id,
-  //     int page = 1,
-  //     Future<Response> Function()? dataSource}) {
-  //   // TODO: implement getSimilarMovies
-  //   throw UnimplementedError();
-  // }
 }

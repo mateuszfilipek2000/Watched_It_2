@@ -59,67 +59,45 @@ void main() {
     });
 
     test("Retreving detailed movie, successful request", () async {
-      movieDetails = TmdbMovieDetails(
+      movieDetails = TmdbMovieDetails();
+      final expectedMovie = DetailedMovie.fromJson(json.decode(file));
+
+      final generatedMovie = await movieDetails.getMovieDetails(
+        "3",
         dataSource: () async => http.Response(
           file,
           200,
         ),
       );
-      // final impl = ApiRetrieveObjectImpl<DetailedMovie>(
-      //   urlGenerator: () => "",
-      //   jsonConverter: DetailedMovie.fromJson,
-      //   dataSource: () async => http.Response(
-      //     file,
-      //     200,
-      //   ),
-      // );
-
-      final expectedMovie = DetailedMovie.fromJson(json.decode(file));
-
-      final generatedMovie = await movieDetails.getMovieDetails("3");
 
       expect(expectedMovie, generatedMovie);
     });
 
     test("Retreving detailed movie, successful request, fails conversion",
         () async {
-      movieDetails = TmdbMovieDetails(
-        dataSource: () async => http.Response(
-          "",
-          200,
-        ),
-      );
-      // final impl = ApiRetrieveObjectImpl<DetailedMovie>(
-      //   urlGenerator: () => "",
-      //   jsonConverter: DetailedMovie.fromJson,
-      //   dataSource: () async => http.Response(
-      //     "",
-      //     200,
-      //   ),
-      // );
+      movieDetails = TmdbMovieDetails();
 
-      expect(() => movieDetails.getMovieDetails(""),
+      expect(
+          () => movieDetails.getMovieDetails(
+                "",
+                dataSource: () async => http.Response(
+                  "",
+                  200,
+                ),
+              ),
           throwsA(isA<ApiResponseObjectConversionError>()));
     });
 
     test("Retreving detailed movie, request fails", () async {
-      movieDetails = TmdbMovieDetails(
-        dataSource: () async => http.Response(
-          "fail",
-          404,
-        ),
-      );
-      // final impl = ApiRetrieveObjectImpl<DetailedMovie>(
-      //   urlGenerator: () => "",
-      //   jsonConverter: DetailedMovie.fromJson,
-      //   dataSource: () async => http.Response(
-      //     "fail",
-      //     404,
-      //   ),
-      // );
-
+      movieDetails = TmdbMovieDetails();
       expect(
-        () => movieDetails.getMovieDetails(""),
+        () => movieDetails.getMovieDetails(
+          "",
+          dataSource: () async => http.Response(
+            "fail",
+            404,
+          ),
+        ),
         throwsA(
           isA<ApiRequestFailedError>(),
         ),
@@ -138,45 +116,49 @@ void main() {
     });
 
     test("Retreving account states, successful request", () async {
-      movieAccountStates = TmdbMovieAccountStates(
+      movieAccountStates = TmdbMovieAccountStates();
+
+      final expectedMovieAccountStates =
+          AccountStates.fromJson(json.decode(file));
+
+      final generatedMovieAccountStates =
+          await movieAccountStates.getAccountStates(
+        "3",
         dataSource: () async => http.Response(
           file,
           200,
         ),
       );
 
-      final expectedMovieAccountStates =
-          AccountStates.fromJson(json.decode(file));
-
-      final generatedMovieAccountStates =
-          await movieAccountStates.getAccountStates("3");
-
       expect(expectedMovieAccountStates, generatedMovieAccountStates);
     });
 
     test("Retreving account states, successful request, fails conversion",
         () async {
-      movieAccountStates = TmdbMovieAccountStates(
-        dataSource: () async => http.Response(
-          "",
-          200,
-        ),
-      );
+      movieAccountStates = TmdbMovieAccountStates();
 
-      expect(() => movieAccountStates.getAccountStates("3"),
+      expect(
+          () => movieAccountStates.getAccountStates(
+                "3",
+                dataSource: () async => http.Response(
+                  "",
+                  200,
+                ),
+              ),
           throwsA(isA<ApiResponseObjectConversionError>()));
     });
 
     test("Retreving account states, request fails", () async {
-      movieAccountStates = TmdbMovieAccountStates(
-        dataSource: () async => http.Response(
-          "fail",
-          404,
-        ),
-      );
+      movieAccountStates = TmdbMovieAccountStates();
 
       expect(
-        () => movieAccountStates.getAccountStates("3"),
+        () => movieAccountStates.getAccountStates(
+          "3",
+          dataSource: () async => http.Response(
+            "fail",
+            404,
+          ),
+        ),
         throwsA(
           isA<ApiRequestFailedError>(),
         ),
@@ -195,43 +177,47 @@ void main() {
     });
 
     test("Retreving movie credits, successful request", () async {
-      movieCredits = TmdbMovieCredits(
+      movieCredits = TmdbMovieCredits();
+
+      final expectedMovieCredits = Credits.fromJson(json.decode(file));
+
+      final generatedMovieCredits = await movieCredits.getMovieCredits(
+        "3",
         dataSource: () async => http.Response(
           file,
           200,
         ),
       );
 
-      final expectedMovieCredits = Credits.fromJson(json.decode(file));
-
-      final generatedMovieCredits = await movieCredits.getMovieCredits("3");
-
       expect(expectedMovieCredits, generatedMovieCredits);
     });
 
     test("Retreving movie credits, successful request, fails conversion",
         () async {
-      movieCredits = TmdbMovieCredits(
-        dataSource: () async => http.Response(
-          "",
-          200,
-        ),
-      );
+      movieCredits = TmdbMovieCredits();
 
-      expect(() => movieCredits.getMovieCredits("3"),
+      expect(
+          () => movieCredits.getMovieCredits(
+                "3",
+                dataSource: () async => http.Response(
+                  "",
+                  200,
+                ),
+              ),
           throwsA(isA<ApiResponseObjectConversionError>()));
     });
 
     test("Retreving movie credits, request fails", () async {
-      movieCredits = TmdbMovieCredits(
-        dataSource: () async => http.Response(
-          "fail",
-          404,
-        ),
-      );
+      movieCredits = TmdbMovieCredits();
 
       expect(
-        () => movieCredits.getMovieCredits("3"),
+        () => movieCredits.getMovieCredits(
+          "3",
+          dataSource: () async => http.Response(
+            "fail",
+            404,
+          ),
+        ),
         throwsA(
           isA<ApiRequestFailedError>(),
         ),
@@ -249,43 +235,47 @@ void main() {
     });
 
     test("Retreving movie images, successful request", () async {
-      interface = TmdbMovieImages(
+      interface = TmdbMovieImages();
+
+      final expected = Images.fromJson(json.decode(file));
+
+      final generated = await interface.getMovieImages(
+        "3",
         dataSource: () async => http.Response(
           file,
           200,
         ),
       );
 
-      final expected = Images.fromJson(json.decode(file));
-
-      final generated = await interface.getMovieImages("3");
-
       expect(expected, generated);
     });
 
     test("Retreving movie images, successful request, fails conversion",
         () async {
-      interface = TmdbMovieImages(
-        dataSource: () async => http.Response(
-          "",
-          200,
-        ),
-      );
+      interface = TmdbMovieImages();
 
-      expect(() => interface.getMovieImages("3"),
+      expect(
+          () => interface.getMovieImages(
+                "3",
+                dataSource: () async => http.Response(
+                  "",
+                  200,
+                ),
+              ),
           throwsA(isA<ApiResponseObjectConversionError>()));
     });
 
     test("Retreving movie images, request fails", () async {
-      interface = TmdbMovieImages(
-        dataSource: () async => http.Response(
-          "fail",
-          404,
-        ),
-      );
+      interface = TmdbMovieImages();
 
       expect(
-        () => interface.getMovieImages("3"),
+        () => interface.getMovieImages(
+          "3",
+          dataSource: () async => http.Response(
+            "fail",
+            404,
+          ),
+        ),
         throwsA(
           isA<ApiRequestFailedError>(),
         ),
@@ -303,43 +293,47 @@ void main() {
     });
 
     test("Retreving movie keywords, successful request", () async {
-      interface = TmdbMovieKeywords(
+      interface = TmdbMovieKeywords();
+
+      final expected = Keywords.fromJson(json.decode(file));
+
+      final generated = await interface.getMovieKeywords(
+        "3",
         dataSource: () async => http.Response(
           file,
           200,
         ),
       );
 
-      final expected = Keywords.fromJson(json.decode(file));
-
-      final generated = await interface.getMovieKeywords("3");
-
       expect(expected, generated);
     });
 
     test("Retreving movie keywords, successful request, fails conversion",
         () async {
-      interface = TmdbMovieKeywords(
-        dataSource: () async => http.Response(
-          "",
-          200,
-        ),
-      );
+      interface = TmdbMovieKeywords();
 
-      expect(() => interface.getMovieKeywords("3"),
+      expect(
+          () => interface.getMovieKeywords(
+                "3",
+                dataSource: () async => http.Response(
+                  "",
+                  200,
+                ),
+              ),
           throwsA(isA<ApiResponseObjectConversionError>()));
     });
 
     test("Retreving movie keywords, request fails", () async {
-      interface = TmdbMovieKeywords(
-        dataSource: () async => http.Response(
-          "fail",
-          404,
-        ),
-      );
+      interface = TmdbMovieKeywords();
 
       expect(
-        () => interface.getMovieKeywords("3"),
+        () => interface.getMovieKeywords(
+          "3",
+          dataSource: () async => http.Response(
+            "fail",
+            404,
+          ),
+        ),
         throwsA(
           isA<ApiRequestFailedError>(),
         ),
@@ -357,7 +351,12 @@ void main() {
     });
 
     test("Retreving movie lists, successful request", () async {
-      interface = TmdbMovieLists(
+      interface = TmdbMovieLists();
+
+      final expected = ListModel.fromJson(json.decode(file));
+
+      final generated = await interface.getMovieLists(
+        id: "3",
         page: 1,
         dataSource: () async => http.Response(
           file,
@@ -365,38 +364,37 @@ void main() {
         ),
       );
 
-      final expected = ListModel.fromJson(json.decode(file));
-
-      final generated = await interface.getMovieLists("3");
-
       expect(expected, generated);
     });
 
     test("Retreving movie lists, successful request, fails conversion",
         () async {
-      interface = TmdbMovieLists(
-        page: 1,
-        dataSource: () async => http.Response(
-          "",
-          200,
-        ),
-      );
+      interface = TmdbMovieLists();
 
-      expect(() => interface.getMovieLists("3"),
+      expect(
+          () => interface.getMovieLists(
+                id: "3",
+                page: 1,
+                dataSource: () async => http.Response(
+                  "",
+                  200,
+                ),
+              ),
           throwsA(isA<ApiResponseObjectConversionError>()));
     });
 
     test("Retreving movie lists, request fails", () async {
-      interface = TmdbMovieLists(
-        page: 1,
-        dataSource: () async => http.Response(
-          "fail",
-          404,
-        ),
-      );
+      interface = TmdbMovieLists();
 
       expect(
-        () => interface.getMovieLists("3"),
+        () => interface.getMovieLists(
+          id: "3",
+          page: 1,
+          dataSource: () async => http.Response(
+            "fail",
+            404,
+          ),
+        ),
         throwsA(
           isA<ApiRequestFailedError>(),
         ),
@@ -416,13 +414,7 @@ void main() {
     test(
         "Retreving movie recommendations, successful request, should correctly parse paged results",
         () async {
-      interface = TmdbMovieRecommendations(
-        // page: 1,
-        dataSource: () async => http.Response(
-          file,
-          200,
-        ),
-      );
+      interface = TmdbMovieRecommendations();
 
       final expected = pagedResultsFromJson(
         json.decode(file),
@@ -432,6 +424,10 @@ void main() {
       final generated = await interface.getRecommendations(
         page: 1,
         id: "3",
+        dataSource: () async => http.Response(
+          file,
+          200,
+        ),
       );
 
       expect(expected, generated);
@@ -440,34 +436,32 @@ void main() {
     test(
         "Retreving movie recommendations, successful request, fails conversion",
         () async {
-      interface = TmdbMovieRecommendations(
-        dataSource: () async => http.Response(
-          "",
-          200,
-        ),
-      );
+      interface = TmdbMovieRecommendations();
 
       expect(
         () => interface.getRecommendations(
           page: 1,
           id: "3",
+          dataSource: () async => http.Response(
+            "",
+            200,
+          ),
         ),
         throwsA(isA<ApiResponseObjectConversionError>()),
       );
     });
 
     test("Retreving movie recommendations, request fails", () async {
-      interface = TmdbMovieRecommendations(
-        dataSource: () async => http.Response(
-          "fail",
-          404,
-        ),
-      );
+      interface = TmdbMovieRecommendations();
 
       expect(
         () => interface.getRecommendations(
           page: 1,
           id: "3",
+          dataSource: () async => http.Response(
+            "fail",
+            404,
+          ),
         ),
         throwsA(
           isA<ApiRequestFailedError>(),
@@ -488,11 +482,7 @@ void main() {
     test(
         "Retreving movie reviews, successful request, should correctly parse paged results",
         () async {
-      interface = TmdbMovieReviews(
-        dataSource: () async => http.Response(file, 200, headers: {
-          HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
-        }),
-      );
+      interface = TmdbMovieReviews();
 
       final expected = pagedResultsFromJson(
         json.decode(file),
@@ -502,6 +492,9 @@ void main() {
       final generated = await interface.getMovieReviews(
         page: 1,
         id: "3",
+        dataSource: () async => http.Response(file, 200, headers: {
+          HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+        }),
       );
 
       expect(expected, generated);
@@ -509,34 +502,32 @@ void main() {
 
     test("Retreving movie reviews, successful request, fails conversion",
         () async {
-      interface = TmdbMovieReviews(
-        dataSource: () async => http.Response(
-          "",
-          200,
-        ),
-      );
+      interface = TmdbMovieReviews();
 
       expect(
         () => interface.getMovieReviews(
           page: 1,
           id: "3",
+          dataSource: () async => http.Response(
+            "",
+            200,
+          ),
         ),
         throwsA(isA<ApiResponseObjectConversionError>()),
       );
     });
 
     test("Retreving movie reviews, request fails", () async {
-      interface = TmdbMovieReviews(
-        dataSource: () async => http.Response(
-          "fail",
-          404,
-        ),
-      );
+      interface = TmdbMovieReviews();
 
       expect(
         () => interface.getMovieReviews(
           page: 1,
           id: "3",
+          dataSource: () async => http.Response(
+            "fail",
+            404,
+          ),
         ),
         throwsA(
           isA<ApiRequestFailedError>(),
@@ -557,15 +548,7 @@ void main() {
     test(
         "Retreving similar movies, successful request, should correctly parse paged results",
         () async {
-      interface = TmdbMovieSimilar(
-        dataSource: () async => http.Response(
-          file,
-          200,
-          headers: {
-            HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
-          },
-        ),
-      );
+      interface = TmdbMovieSimilar();
 
       final expected = pagedResultsFromJson(
         json.decode(file),
@@ -575,6 +558,13 @@ void main() {
       final generated = await interface.getSimilarMovies(
         page: 1,
         id: "3",
+        dataSource: () async => http.Response(
+          file,
+          200,
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+          },
+        ),
       );
 
       expect(expected, generated);
@@ -582,34 +572,32 @@ void main() {
 
     test("Retreving similar movies, successful request, fails conversion",
         () async {
-      interface = TmdbMovieSimilar(
-        dataSource: () async => http.Response(
-          "",
-          200,
-        ),
-      );
+      interface = TmdbMovieSimilar();
 
       expect(
         () => interface.getSimilarMovies(
           page: 1,
           id: "3",
+          dataSource: () async => http.Response(
+            "",
+            200,
+          ),
         ),
         throwsA(isA<ApiResponseObjectConversionError>()),
       );
     });
 
     test("Retreving similar movies, request fails", () async {
-      interface = TmdbMovieSimilar(
-        dataSource: () async => http.Response(
-          "fail",
-          404,
-        ),
-      );
+      interface = TmdbMovieSimilar();
 
       expect(
         () => interface.getSimilarMovies(
           page: 1,
           id: "3",
+          dataSource: () async => http.Response(
+            "fail",
+            404,
+          ),
         ),
         throwsA(
           isA<ApiRequestFailedError>(),
@@ -630,7 +618,14 @@ void main() {
     test(
         "Retreving movie watch providers, successful request, should correctly parse paged results",
         () async {
-      interface = TmdbMovieWatchProviders(
+      interface = TmdbMovieWatchProviders();
+
+      final expected = JustWatchWatchProviders.fromJson(
+        json.decode(file),
+      );
+
+      final generated = await interface.getMovieWatchProviders(
+        "3",
         dataSource: () async => http.Response(
           file,
           200,
@@ -640,46 +635,36 @@ void main() {
         ),
       );
 
-      final expected = JustWatchWatchProviders.fromJson(
-        json.decode(file),
-      );
-
-      final generated = await interface.getMovieWatchProviders(
-        "3",
-      );
-
       expect(expected, generated);
     });
 
     test(
         "Retreving movie watch providers, successful request, fails conversion",
         () async {
-      interface = TmdbMovieWatchProviders(
-        dataSource: () async => http.Response(
-          "",
-          200,
-        ),
-      );
+      interface = TmdbMovieWatchProviders();
 
       expect(
         () => interface.getMovieWatchProviders(
           "3",
+          dataSource: () async => http.Response(
+            "",
+            200,
+          ),
         ),
         throwsA(isA<ApiResponseObjectConversionError>()),
       );
     });
 
     test("Retreving movie watch providers, request fails", () async {
-      interface = TmdbMovieWatchProviders(
-        dataSource: () async => http.Response(
-          "fail",
-          404,
-        ),
-      );
+      interface = TmdbMovieWatchProviders();
 
       expect(
         () => interface.getMovieWatchProviders(
           "3",
+          dataSource: () async => http.Response(
+            "fail",
+            404,
+          ),
         ),
         throwsA(
           isA<ApiRequestFailedError>(),
@@ -700,7 +685,15 @@ void main() {
     test(
         "Retreving now playing movies, successful request, should correctly parse paged results",
         () async {
-      interface = TmdbMoviesNowPlaying(
+      interface = TmdbMoviesNowPlaying();
+
+      final expected = pagedResultsFromJson(
+        json.decode(file),
+        Movie.fromJson,
+      );
+
+      final generated = await interface.getNowPlayingMovies(
+        page: 1,
         dataSource: () async => http.Response(
           file,
           200,
@@ -710,46 +703,35 @@ void main() {
         ),
       );
 
-      final expected = pagedResultsFromJson(
-        json.decode(file),
-        Movie.fromJson,
-      );
-
-      final generated = await interface.getNowPlayingMovies(
-        page: 1,
-      );
-
       expect(expected, generated);
     });
 
     test("Retreving now playing movies, successful request, fails conversion",
         () async {
-      interface = TmdbMoviesNowPlaying(
-        dataSource: () async => http.Response(
-          "",
-          200,
-        ),
-      );
+      interface = TmdbMoviesNowPlaying();
 
       expect(
         () => interface.getNowPlayingMovies(
           page: 1,
+          dataSource: () async => http.Response(
+            "",
+            200,
+          ),
         ),
         throwsA(isA<ApiResponseObjectConversionError>()),
       );
     });
 
     test("Retreving now playing movies, request fails", () async {
-      interface = TmdbMoviesNowPlaying(
-        dataSource: () async => http.Response(
-          "fail",
-          404,
-        ),
-      );
+      interface = TmdbMoviesNowPlaying();
 
       expect(
         () => interface.getNowPlayingMovies(
           page: 1,
+          dataSource: () async => http.Response(
+            "fail",
+            404,
+          ),
         ),
         throwsA(
           isA<ApiRequestFailedError>(),
@@ -770,7 +752,15 @@ void main() {
     test(
         "Retreving popular movies, successful request, should correctly parse paged results",
         () async {
-      interface = TmdbMoviesPopular(
+      interface = TmdbMoviesPopular();
+
+      final expected = pagedResultsFromJson(
+        json.decode(file),
+        Movie.fromJson,
+      );
+
+      final generated = await interface.getPopularMovies(
+        page: 1,
         dataSource: () async => http.Response(
           file,
           200,
@@ -780,46 +770,35 @@ void main() {
         ),
       );
 
-      final expected = pagedResultsFromJson(
-        json.decode(file),
-        Movie.fromJson,
-      );
-
-      final generated = await interface.getPopularMovies(
-        page: 1,
-      );
-
       expect(expected, generated);
     });
 
     test("Retreving popular movies, successful request, fails conversion",
         () async {
-      interface = TmdbMoviesPopular(
-        dataSource: () async => http.Response(
-          "",
-          200,
-        ),
-      );
+      interface = TmdbMoviesPopular();
 
       expect(
         () => interface.getPopularMovies(
           page: 1,
+          dataSource: () async => http.Response(
+            "",
+            200,
+          ),
         ),
         throwsA(isA<ApiResponseObjectConversionError>()),
       );
     });
 
     test("Retreving popular movies, request fails", () async {
-      interface = TmdbMoviesPopular(
-        dataSource: () async => http.Response(
-          "fail",
-          404,
-        ),
-      );
+      interface = TmdbMoviesPopular();
 
       expect(
         () => interface.getPopularMovies(
           page: 1,
+          dataSource: () async => http.Response(
+            "fail",
+            404,
+          ),
         ),
         throwsA(
           isA<ApiRequestFailedError>(),
@@ -840,7 +819,15 @@ void main() {
     test(
         "Retreving top rated movies, successful request, should correctly parse paged results",
         () async {
-      interface = TmdbMoviesTopRated(
+      interface = TmdbMoviesTopRated();
+
+      final expected = pagedResultsFromJson(
+        json.decode(file),
+        Movie.fromJson,
+      );
+
+      final generated = await interface.getTopRatedMovies(
+        page: 1,
         dataSource: () async => http.Response(
           file,
           200,
@@ -850,46 +837,35 @@ void main() {
         ),
       );
 
-      final expected = pagedResultsFromJson(
-        json.decode(file),
-        Movie.fromJson,
-      );
-
-      final generated = await interface.getTopRatedMovies(
-        page: 1,
-      );
-
       expect(expected, generated);
     });
 
     test("Retreving top rated movies, successful request, fails conversion",
         () async {
-      interface = TmdbMoviesTopRated(
-        dataSource: () async => http.Response(
-          "",
-          200,
-        ),
-      );
+      interface = TmdbMoviesTopRated();
 
       expect(
         () => interface.getTopRatedMovies(
           page: 1,
+          dataSource: () async => http.Response(
+            "",
+            200,
+          ),
         ),
         throwsA(isA<ApiResponseObjectConversionError>()),
       );
     });
 
     test("Retreving top rated movies, request fails", () async {
-      interface = TmdbMoviesTopRated(
-        dataSource: () async => http.Response(
-          "fail",
-          404,
-        ),
-      );
+      interface = TmdbMoviesTopRated();
 
       expect(
         () => interface.getTopRatedMovies(
           page: 1,
+          dataSource: () async => http.Response(
+            "fail",
+            404,
+          ),
         ),
         throwsA(
           isA<ApiRequestFailedError>(),
@@ -910,7 +886,15 @@ void main() {
     test(
         "Retreving upcoming movies, successful request, should correctly parse paged results",
         () async {
-      interface = TmdbMoviesUpcoming(
+      interface = TmdbMoviesUpcoming();
+
+      final expected = pagedResultsFromJson(
+        json.decode(file),
+        Movie.fromJson,
+      );
+
+      final generated = await interface.getUpcomingMovies(
+        page: 1,
         dataSource: () async => http.Response(
           file,
           200,
@@ -920,46 +904,35 @@ void main() {
         ),
       );
 
-      final expected = pagedResultsFromJson(
-        json.decode(file),
-        Movie.fromJson,
-      );
-
-      final generated = await interface.getUpcomingMovies(
-        page: 1,
-      );
-
       expect(expected, generated);
     });
 
     test("Retreving upcoming movies, successful request, fails conversion",
         () async {
-      interface = TmdbMoviesUpcoming(
-        dataSource: () async => http.Response(
-          "",
-          200,
-        ),
-      );
+      interface = TmdbMoviesUpcoming();
 
       expect(
         () => interface.getUpcomingMovies(
           page: 1,
+          dataSource: () async => http.Response(
+            "",
+            200,
+          ),
         ),
         throwsA(isA<ApiResponseObjectConversionError>()),
       );
     });
 
     test("Retreving upcoming movies, request fails", () async {
-      interface = TmdbMoviesUpcoming(
-        dataSource: () async => http.Response(
-          "fail",
-          404,
-        ),
-      );
+      interface = TmdbMoviesUpcoming();
 
       expect(
         () => interface.getUpcomingMovies(
           page: 1,
+          dataSource: () async => http.Response(
+            "fail",
+            404,
+          ),
         ),
         throwsA(
           isA<ApiRequestFailedError>(),

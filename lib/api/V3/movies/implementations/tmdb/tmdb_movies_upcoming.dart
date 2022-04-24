@@ -6,6 +6,7 @@ import 'package:watched_it_2/models/paged_results_model.dart';
 import 'package:watched_it_2/models/movie/movie_model.dart';
 
 class TmdbMoviesUpcoming implements IMoviesUpcoming {
+  // const TmdbMoviesUpcoming();
   @override
   Future<PagedResults<Movie>> getUpcomingMovies({
     int page = 1,

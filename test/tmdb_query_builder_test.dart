@@ -73,7 +73,7 @@ void main() {
       const String expected =
           "https://api.themoviedb.org/3/movie/now_playing?api_key=$kApiKeyV3&language=en-US&page=$page";
 
-      final String created = const TmdbMoviesNowPlaying().urlGenerator(page);
+      final String created = TmdbMoviesNowPlaying().urlGenerator(page);
 
       expect(expected, created);
     });
@@ -82,7 +82,7 @@ void main() {
       const String expected =
           "https://api.themoviedb.org/3/movie/popular?api_key=$kApiKeyV3&language=en-US&page=$page";
 
-      final String created = const TmdbMoviesPopular().urlGenerator(page);
+      final String created = TmdbMoviesPopular().urlGenerator(page);
 
       expect(expected, created);
     });
@@ -91,7 +91,7 @@ void main() {
       const String expected =
           "https://api.themoviedb.org/3/movie/top_rated?api_key=$kApiKeyV3&language=en-US&page=$page";
 
-      final String created = const TmdbMoviesTopRated().urlGenerator(page);
+      final String created = TmdbMoviesTopRated().urlGenerator(page);
 
       expect(expected, created);
     });
@@ -100,7 +100,7 @@ void main() {
       const String expected =
           "https://api.themoviedb.org/3/movie/upcoming?api_key=$kApiKeyV3&language=en-US&page=$page";
 
-      final String created = const TmdbMoviesUpcoming().urlGenerator(page);
+      final String created = TmdbMoviesUpcoming().urlGenerator(page);
 
       expect(expected, created);
     });
