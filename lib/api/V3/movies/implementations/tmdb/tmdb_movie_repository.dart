@@ -55,109 +55,164 @@ class TmdbMovieRepository
         TmdbMoviesTopRated,
         TmdbMoviesUpcoming
     implements IMovieRepository {
-  @override
-  Future<AccountStates> getAccountStates(String id,
-      {Future<Response> Function()? dataSource}) {
-    // TODO: implement getAccountStates
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Credits> getMovieCredits(String id,
-      {Future<Response> Function()? dataSource}) {
-    // TODO: implement getMovieCredits
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<DetailedMovie> getMovieDetails(String id,
-      {Future<Response> Function()? dataSource}) {
-    // TODO: implement getMovieDetails
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Images> getMovieImages(String id,
-      {Future<Response> Function()? dataSource}) {
-    // TODO: implement getMovieImages
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Keywords> getMovieKeywords(String id,
-      {Future<Response> Function()? dataSource}) {
-    // TODO: implement getMovieKeywords
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<ListModel> getMovieLists(
-      {required String id,
-      int page = 1,
-      Future<Response> Function()? dataSource}) {
-    // TODO: implement getMovieLists
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<PagedResults<Review>> getMovieReviews(
-      {int page = 1,
-      required String id,
-      Future<Response> Function()? dataSource}) {
-    // TODO: implement getMovieReviews
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<JustWatchWatchProviders> getMovieWatchProviders(String id,
-      {Future<Response> Function()? dataSource}) {
-    // TODO: implement getMovieWatchProviders
-    throw UnimplementedError();
-  }
+  // THESE FOUR LISTS WILL BE CACHED
+  final List<PagedResults<Movie>> nowPlayingMovies = [];
+  final List<PagedResults<Movie>> popularMovies = [];
+  final List<PagedResults<Movie>> topRatedMovies = [];
+  final List<PagedResults<Movie>> upcomingMovies = [];
 
   @override
   Future<PagedResults<Movie>> getNowPlayingMovies(
-      {int page = 1, Future<Response> Function()? dataSource}) {
-    // TODO: implement getNowPlayingMovies
-    throw UnimplementedError();
+      {int page = 1, Future<Response> Function()? dataSource}) async {
+    if (page - 1 < 0) {
+      throw Exception(
+          "Page number can't be lower than 1, you've asked for page number $page");
+    }
+
+    if (page - 1 <= nowPlayingMovies.length) {
+      //retrieving from cache
+      return nowPlayingMovies[page - 1];
+    } else {
+      // asked for element that's not in cache, retrieving from api
+      final newPage = await super.getNowPlayingMovies(page: page + 1);
+      nowPlayingMovies.add(newPage);
+      return newPage;
+    }
   }
 
   @override
   Future<PagedResults<Movie>> getPopularMovies(
-      {int page = 1, Future<Response> Function()? dataSource}) {
-    // TODO: implement getPopularMovies
-    throw UnimplementedError();
-  }
+      {int page = 1, Future<Response> Function()? dataSource}) async {
+    if (page - 1 < 0) {
+      throw Exception(
+          "Page number can't be lower than 1, you've asked for page number $page");
+    }
 
-  @override
-  Future<PagedResults<Movie>> getRecommendations(
-      {required String id,
-      int page = 1,
-      Future<Response> Function()? dataSource}) {
-    // TODO: implement getRecommendations
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<PagedResults<Movie>> getSimilarMovies(
-      {required String id,
-      int page = 1,
-      Future<Response> Function()? dataSource}) {
-    // TODO: implement getSimilarMovies
-    throw UnimplementedError();
+    if (page - 1 <= popularMovies.length) {
+      //retrieving from cache
+      return popularMovies[page - 1];
+    } else {
+      // asked for element that's not in cache, retrieving from api
+      final newPage = await super.getPopularMovies(page: page + 1);
+      popularMovies.add(newPage);
+      return newPage;
+    }
   }
 
   @override
   Future<PagedResults<Movie>> getTopRatedMovies(
-      {int page = 1, Future<Response> Function()? dataSource}) {
-    // TODO: implement getTopRatedMovies
-    throw UnimplementedError();
+      {int page = 1, Future<Response> Function()? dataSource}) async {
+    if (page - 1 < 0) {
+      throw Exception(
+          "Page number can't be lower than 1, you've asked for page number $page");
+    }
+
+    if (page - 1 <= topRatedMovies.length) {
+      //retrieving from cache
+      return topRatedMovies[page - 1];
+    } else {
+      // asked for element that's not in cache, retrieving from api
+      final newPage = await super.getTopRatedMovies(page: page + 1);
+      topRatedMovies.add(newPage);
+      return newPage;
+    }
   }
 
   @override
   Future<PagedResults<Movie>> getUpcomingMovies(
-      {int page = 1, Future<Response> Function()? dataSource}) {
-    // TODO: implement getUpcomingMovies
-    throw UnimplementedError();
+      {int page = 1, Future<Response> Function()? dataSource}) async {
+    if (page - 1 < 0) {
+      throw Exception(
+          "Page number can't be lower than 1, you've asked for page number $page");
+    }
+
+    if (page - 1 <= upcomingMovies.length) {
+      //retrieving from cache
+      return upcomingMovies[page - 1];
+    } else {
+      // asked for element that's not in cache, retrieving from api
+      final newPage = await super.getUpcomingMovies(page: page + 1);
+      upcomingMovies.add(newPage);
+      return newPage;
+    }
   }
+
+  //METHODS UNDER THIS COMMENT PROBABLY WONT BE OVERRIDEN, BUT LEAVING THEM HERE FOR NOW
+  // @override
+  // Future<AccountStates> getAccountStates(String id,
+  //     {Future<Response> Function()? dataSource}) {
+  //   // TODO: implement getAccountStates
+  //   throw UnimplementedError();
+  // }
+
+  // @override
+  // Future<Credits> getMovieCredits(String id,
+  //     {Future<Response> Function()? dataSource}) {
+  //   // TODO: implement getMovieCredits
+  //   throw UnimplementedError();
+  // }
+
+  // @override
+  // Future<DetailedMovie> getMovieDetails(String id,
+  //     {Future<Response> Function()? dataSource}) {
+  //   // TODO: implement getMovieDetails
+  //   throw UnimplementedError();
+  // }
+
+  // @override
+  // Future<Images> getMovieImages(String id,
+  //     {Future<Response> Function()? dataSource}) {
+  //   // TODO: implement getMovieImages
+  //   throw UnimplementedError();
+  // }
+
+  // @override
+  // Future<Keywords> getMovieKeywords(String id,
+  //     {Future<Response> Function()? dataSource}) {
+  //   // TODO: implement getMovieKeywords
+  //   throw UnimplementedError();
+  // }
+
+  // @override
+  // Future<ListModel> getMovieLists(
+  //     {required String id,
+  //     int page = 1,
+  //     Future<Response> Function()? dataSource}) {
+  //   // TODO: implement getMovieLists
+  //   throw UnimplementedError();
+  // }
+
+  // @override
+  // Future<PagedResults<Review>> getMovieReviews(
+  //     {int page = 1,
+  //     required String id,
+  //     Future<Response> Function()? dataSource}) {
+  //   // TODO: implement getMovieReviews
+  //   throw UnimplementedError();
+  // }
+
+  // @override
+  // Future<JustWatchWatchProviders> getMovieWatchProviders(String id,
+  //     {Future<Response> Function()? dataSource}) {
+  //   // TODO: implement getMovieWatchProviders
+  //   throw UnimplementedError();
+  // }
+
+  // @override
+  // Future<PagedResults<Movie>> getRecommendations(
+  //     {required String id,
+  //     int page = 1,
+  //     Future<Response> Function()? dataSource}) {
+  //   // TODO: implement getRecommendations
+  //   throw UnimplementedError();
+  // }
+
+  // @override
+  // Future<PagedResults<Movie>> getSimilarMovies(
+  //     {required String id,
+  //     int page = 1,
+  //     Future<Response> Function()? dataSource}) {
+  //   // TODO: implement getSimilarMovies
+  //   throw UnimplementedError();
+  // }
 }

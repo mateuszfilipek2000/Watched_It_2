@@ -3,10 +3,8 @@ import 'package:watched_it_2/api/V3/movies/implementations/tmdb/api_retrieve_obj
 import 'package:watched_it_2/api/V3/movies/interfaces/imovie_recommendations.dart';
 import 'package:watched_it_2/api/tmdb_query_builder.dart';
 import 'package:watched_it_2/models/movie/movie_model.dart';
-import 'package:flutter/foundation.dart' show immutable;
 import 'package:watched_it_2/models/paged_results_model.dart';
 
-@immutable
 class TmdbMovieRecommendations implements IMovieRecommentations {
   @override
   Future<PagedResults<Movie>> getRecommendations({
