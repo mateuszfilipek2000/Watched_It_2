@@ -6,21 +6,14 @@ import 'package:watched_it_2/models/review_model.dart';
 import 'package:watched_it_2/models/paged_results_model.dart';
 
 class TmdbMovieReviews implements IMovieReviews {
-  const TmdbMovieReviews({this.dataSource});
-
   @override
   Future<PagedResults<Review>> getMovieReviews({
     required String id,
     int page = 1,
+    Future<Response> Function()? dataSource,
   }) async {
     return await ApiRetrieveObjectImpl<PagedResults<Review>>(
-      urlGenerator: () => TmdbQueryBuilder.buildUri(
-        version: TmdbApiVersion.v3,
-        path: "movie/$id/reviews",
-        queryParameters: {
-          "page": page.toString(),
-        },
-      ).toString(),
+      urlGenerator: () => urlGenerator(id, page),
       jsonConverter: (json) => pagedResultsFromJson<Review>(
         json,
         Review.fromJson,
@@ -28,6 +21,14 @@ class TmdbMovieReviews implements IMovieReviews {
       dataSource: dataSource,
     ).retrieveObject();
   }
+}
 
-  final Future<Response> Function()? dataSource;
+extension UrlGenerator on TmdbMovieReviews {
+  String urlGenerator(String id, int page) => TmdbQueryBuilder.buildUri(
+        version: TmdbApiVersion.v3,
+        path: "movie/$id/reviews",
+        queryParameters: {
+          "page": page.toString(),
+        },
+      ).toString();
 }

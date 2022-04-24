@@ -5,20 +5,23 @@ import 'package:watched_it_2/api/tmdb_query_builder.dart';
 import 'package:watched_it_2/models/justwatch_watch_providers.dart';
 
 class TmdbMovieWatchProviders implements IMovieWatchProviders {
-  const TmdbMovieWatchProviders({this.dataSource});
-
   @override
-  Future<JustWatchWatchProviders> getMovieWatchProviders(String id) async {
+  Future<JustWatchWatchProviders> getMovieWatchProviders(
+    String id, {
+    Future<Response> Function()? dataSource,
+  }) async {
     return await ApiRetrieveObjectImpl<JustWatchWatchProviders>(
-      urlGenerator: () => TmdbQueryBuilder.buildUri(
-        version: TmdbApiVersion.v3,
-        path: "movie/$id/watch/providers",
-        queryParameters: {},
-      ).toString(),
+      urlGenerator: () => urlGenerator(id),
       jsonConverter: JustWatchWatchProviders.fromJson,
       dataSource: dataSource,
     ).retrieveObject();
   }
+}
 
-  final Future<Response> Function()? dataSource;
+extension UrlGenerator on TmdbMovieWatchProviders {
+  String urlGenerator(String id) => TmdbQueryBuilder.buildUri(
+        version: TmdbApiVersion.v3,
+        path: "movie/$id/watch/providers",
+        queryParameters: {},
+      ).toString();
 }

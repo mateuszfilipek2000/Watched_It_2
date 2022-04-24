@@ -8,21 +8,14 @@ import 'package:watched_it_2/models/paged_results_model.dart';
 
 @immutable
 class TmdbMovieRecommendations implements IMovieRecommentations {
-  const TmdbMovieRecommendations({this.dataSource});
-
   @override
   Future<PagedResults<Movie>> getRecommendations({
     required String id,
     int page = 1,
+    Future<Response> Function()? dataSource,
   }) async {
     return await ApiRetrieveObjectImpl<PagedResults<Movie>>(
-      urlGenerator: () => TmdbQueryBuilder.buildUri(
-        version: TmdbApiVersion.v3,
-        path: "movie/$id/recommendations",
-        queryParameters: {
-          "page": page.toString(),
-        },
-      ).toString(),
+      urlGenerator: () => urlGenerator(id, page),
       jsonConverter: (json) => pagedResultsFromJson<Movie>(
         json,
         Movie.fromJson,
@@ -30,6 +23,14 @@ class TmdbMovieRecommendations implements IMovieRecommentations {
       dataSource: dataSource,
     ).retrieveObject();
   }
+}
 
-  final Future<Response> Function()? dataSource;
+extension UrlGenerator on TmdbMovieRecommendations {
+  String urlGenerator(String id, int page) => TmdbQueryBuilder.buildUri(
+        version: TmdbApiVersion.v3,
+        path: "movie/$id/recommendations",
+        queryParameters: {
+          "page": page.toString(),
+        },
+      ).toString();
 }

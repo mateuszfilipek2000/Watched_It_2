@@ -6,10 +6,11 @@ import 'package:watched_it_2/models/paged_results_model.dart';
 import 'package:watched_it_2/models/movie/movie_model.dart';
 
 class TmdbMoviesPopular implements IMoviesPopular {
-  const TmdbMoviesPopular({this.dataSource});
-
   @override
-  Future<PagedResults<Movie>> getPopularMovies({int page = 1}) async {
+  Future<PagedResults<Movie>> getPopularMovies({
+    int page = 1,
+    Future<Response> Function()? dataSource,
+  }) async {
     return await ApiRetrieveObjectImpl<PagedResults<Movie>>(
       urlGenerator: () => urlGenerator(page),
       jsonConverter: (json) => pagedResultsFromJson<Movie>(
@@ -19,7 +20,9 @@ class TmdbMoviesPopular implements IMoviesPopular {
       dataSource: dataSource,
     ).retrieveObject();
   }
+}
 
+extension UrlGenerator on TmdbMoviesPopular {
   String urlGenerator(int page) => TmdbQueryBuilder.buildUri(
         version: TmdbApiVersion.v3,
         path: "movie/popular",
@@ -27,6 +30,4 @@ class TmdbMoviesPopular implements IMoviesPopular {
           "page": page.toString(),
         },
       ).toString();
-
-  final Future<Response> Function()? dataSource;
 }
