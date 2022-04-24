@@ -1,4 +1,5 @@
 import 'package:watched_it_2/models/genre_model.dart';
+import 'package:watched_it_2/models/network_model.dart';
 import 'package:watched_it_2/models/people/person_model.dart';
 import 'package:watched_it_2/models/production_country_model.dart';
 import 'package:watched_it_2/models/tv/season_model.dart';
@@ -171,23 +172,23 @@ class LastEpisodeToAir {
       };
 }
 
-class Network {
-  Network({
-    required this.name,
-    required this.id,
-    required this.logoPath,
-    required this.originCountry,
-  });
+// class Network {
+//   Network({
+//     required this.name,
+//     required this.id,
+//     required this.logoPath,
+//     required this.originCountry,
+//   });
 
-  final String name;
-  final int id;
-  final String? logoPath;
-  final String originCountry;
+//   final String name;
+//   final int id;
+//   final String? logoPath;
+//   final String originCountry;
 
-  factory Network.fromJson(Map<String, dynamic> json) => Network(
-        name: json["name"],
-        id: json["id"],
-        logoPath: json["logo_path"],
-        originCountry: json["origin_country"],
-      );
-}
+//   factory Network.fromJson(Map<String, dynamic> json) => Network(
+//         name: json["name"],
+//         id: json["id"],
+//         logoPath: json["logo_path"],
+//         originCountry: json["origin_country"],
+//       );
+// }
