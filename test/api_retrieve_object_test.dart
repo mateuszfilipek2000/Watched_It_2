@@ -13,6 +13,10 @@ import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_recom
 import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_reviews.dart';
 import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_similar.dart';
 import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_watch_providers.dart';
+import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movies_now_playing.dart';
+import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movies_popular.dart';
+import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movies_top_rated.dart';
+import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movies_upcoming.dart';
 import 'package:watched_it_2/api/V3/movies/interfaces/imovie_account_states.dart';
 import 'package:watched_it_2/api/V3/movies/interfaces/imovie_credits.dart';
 import 'package:watched_it_2/api/V3/movies/interfaces/imovie_details.dart';
@@ -23,6 +27,10 @@ import 'package:watched_it_2/api/V3/movies/interfaces/imovie_recommendations.dar
 import 'package:watched_it_2/api/V3/movies/interfaces/imovie_reviews.dart';
 import 'package:watched_it_2/api/V3/movies/interfaces/imovie_similar.dart';
 import 'package:watched_it_2/api/V3/movies/interfaces/imovie_watch_providers.dart';
+import 'package:watched_it_2/api/V3/movies/interfaces/imovies_now_playing.dart';
+import 'package:watched_it_2/api/V3/movies/interfaces/imovies_popular.dart';
+import 'package:watched_it_2/api/V3/movies/interfaces/imovies_top_rated.dart';
+import 'package:watched_it_2/api/V3/movies/interfaces/imovies_upcoming.dart';
 import 'package:watched_it_2/models/account_states_model.dart';
 import 'package:watched_it_2/models/image_model.dart';
 import 'package:watched_it_2/models/justwatch_watch_providers.dart';
@@ -680,7 +688,285 @@ void main() {
     });
   });
 
-  // generateTest<int>(3);
+  group("Movies Now Playing, checking if Paged Results work correctly", () {
+    late String file;
+    late INowPlayingMovies interface;
+    setUp(() async {
+      file = await rootBundle.loadString(
+        "assets/example_responses/movie/tmdb_get_movies_now_playing.json",
+      );
+    });
+
+    test(
+        "Retreving now playing movies, successful request, should correctly parse paged results",
+        () async {
+      interface = TmdbMoviesNowPlaying(
+        dataSource: () async => http.Response(
+          file,
+          200,
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+          },
+        ),
+      );
+
+      final expected = pagedResultsFromJson(
+        json.decode(file),
+        Movie.fromJson,
+      );
+
+      final generated = await interface.getNowPlayingMovies(
+        page: 1,
+      );
+
+      expect(expected, generated);
+    });
+
+    test("Retreving now playing movies, successful request, fails conversion",
+        () async {
+      interface = TmdbMoviesNowPlaying(
+        dataSource: () async => http.Response(
+          "",
+          200,
+        ),
+      );
+
+      expect(
+        () => interface.getNowPlayingMovies(
+          page: 1,
+        ),
+        throwsA(isA<ApiResponseObjectConversionError>()),
+      );
+    });
+
+    test("Retreving now playing movies, request fails", () async {
+      interface = TmdbMoviesNowPlaying(
+        dataSource: () async => http.Response(
+          "fail",
+          404,
+        ),
+      );
+
+      expect(
+        () => interface.getNowPlayingMovies(
+          page: 1,
+        ),
+        throwsA(
+          isA<ApiRequestFailedError>(),
+        ),
+      );
+    });
+  });
+
+  group("Movies Popular, checking if Paged Results work correctly", () {
+    late String file;
+    late IMoviesPopular interface;
+    setUp(() async {
+      file = await rootBundle.loadString(
+        "assets/example_responses/movie/tmdb_get_movies_popular.json",
+      );
+    });
+
+    test(
+        "Retreving popular movies, successful request, should correctly parse paged results",
+        () async {
+      interface = TmdbMoviesPopular(
+        dataSource: () async => http.Response(
+          file,
+          200,
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+          },
+        ),
+      );
+
+      final expected = pagedResultsFromJson(
+        json.decode(file),
+        Movie.fromJson,
+      );
+
+      final generated = await interface.getPopularMovies(
+        page: 1,
+      );
+
+      expect(expected, generated);
+    });
+
+    test("Retreving popular movies, successful request, fails conversion",
+        () async {
+      interface = TmdbMoviesPopular(
+        dataSource: () async => http.Response(
+          "",
+          200,
+        ),
+      );
+
+      expect(
+        () => interface.getPopularMovies(
+          page: 1,
+        ),
+        throwsA(isA<ApiResponseObjectConversionError>()),
+      );
+    });
+
+    test("Retreving popular movies, request fails", () async {
+      interface = TmdbMoviesPopular(
+        dataSource: () async => http.Response(
+          "fail",
+          404,
+        ),
+      );
+
+      expect(
+        () => interface.getPopularMovies(
+          page: 1,
+        ),
+        throwsA(
+          isA<ApiRequestFailedError>(),
+        ),
+      );
+    });
+  });
+
+  group("Movies Top Rated, checking if Paged Results work correctly", () {
+    late String file;
+    late IMoviesTopRated interface;
+    setUp(() async {
+      file = await rootBundle.loadString(
+        "assets/example_responses/movie/tmdb_get_movies_top_rated.json",
+      );
+    });
+
+    test(
+        "Retreving top rated movies, successful request, should correctly parse paged results",
+        () async {
+      interface = TmdbMoviesTopRated(
+        dataSource: () async => http.Response(
+          file,
+          200,
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+          },
+        ),
+      );
+
+      final expected = pagedResultsFromJson(
+        json.decode(file),
+        Movie.fromJson,
+      );
+
+      final generated = await interface.getTopRatedMovies(
+        page: 1,
+      );
+
+      expect(expected, generated);
+    });
+
+    test("Retreving top rated movies, successful request, fails conversion",
+        () async {
+      interface = TmdbMoviesTopRated(
+        dataSource: () async => http.Response(
+          "",
+          200,
+        ),
+      );
+
+      expect(
+        () => interface.getTopRatedMovies(
+          page: 1,
+        ),
+        throwsA(isA<ApiResponseObjectConversionError>()),
+      );
+    });
+
+    test("Retreving top rated movies, request fails", () async {
+      interface = TmdbMoviesTopRated(
+        dataSource: () async => http.Response(
+          "fail",
+          404,
+        ),
+      );
+
+      expect(
+        () => interface.getTopRatedMovies(
+          page: 1,
+        ),
+        throwsA(
+          isA<ApiRequestFailedError>(),
+        ),
+      );
+    });
+  });
+
+  group("Movies Upcoming, checking if Paged Results work correctly", () {
+    late String file;
+    late IMoviesUpcoming interface;
+    setUp(() async {
+      file = await rootBundle.loadString(
+        "assets/example_responses/movie/tmdb_get_movies_upcoming.json",
+      );
+    });
+
+    test(
+        "Retreving upcoming movies, successful request, should correctly parse paged results",
+        () async {
+      interface = TmdbMoviesUpcoming(
+        dataSource: () async => http.Response(
+          file,
+          200,
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+          },
+        ),
+      );
+
+      final expected = pagedResultsFromJson(
+        json.decode(file),
+        Movie.fromJson,
+      );
+
+      final generated = await interface.getUpcomingMovies(
+        page: 1,
+      );
+
+      expect(expected, generated);
+    });
+
+    test("Retreving upcoming movies, successful request, fails conversion",
+        () async {
+      interface = TmdbMoviesUpcoming(
+        dataSource: () async => http.Response(
+          "",
+          200,
+        ),
+      );
+
+      expect(
+        () => interface.getUpcomingMovies(
+          page: 1,
+        ),
+        throwsA(isA<ApiResponseObjectConversionError>()),
+      );
+    });
+
+    test("Retreving upcoming movies, request fails", () async {
+      interface = TmdbMoviesUpcoming(
+        dataSource: () async => http.Response(
+          "fail",
+          404,
+        ),
+      );
+
+      expect(
+        () => interface.getUpcomingMovies(
+          page: 1,
+        ),
+        throwsA(
+          isA<ApiRequestFailedError>(),
+        ),
+      );
+    });
+  });
 }
 
 // TODO THINK OF A WAY TO GENERATE THESE TESTS

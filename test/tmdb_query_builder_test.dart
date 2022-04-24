@@ -1,4 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movies_now_playing.dart';
+import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movies_popular.dart';
+import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movies_top_rated.dart';
+import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movies_upcoming.dart';
 import 'package:watched_it_2/api/tmdb_query_builder.dart';
 import 'package:watched_it_2/core/config/api_keys.dart';
 
@@ -61,6 +65,42 @@ void main() {
         path: "movie/$id/watch/providers",
         queryParameters: {},
       ).toString();
+
+      expect(expected, created);
+    });
+
+    test("testing for now playing movies url", () {
+      const String expected =
+          "https://api.themoviedb.org/3/movie/now_playing?api_key=$kApiKeyV3&language=en-US&page=$page";
+
+      final String created = const TmdbMoviesNowPlaying().urlGenerator(page);
+
+      expect(expected, created);
+    });
+
+    test("testing for popular movies url", () {
+      const String expected =
+          "https://api.themoviedb.org/3/movie/popular?api_key=$kApiKeyV3&language=en-US&page=$page";
+
+      final String created = const TmdbMoviesPopular().urlGenerator(page);
+
+      expect(expected, created);
+    });
+
+    test("testing for top rated movies url", () {
+      const String expected =
+          "https://api.themoviedb.org/3/movie/top_rated?api_key=$kApiKeyV3&language=en-US&page=$page";
+
+      final String created = const TmdbMoviesTopRated().urlGenerator(page);
+
+      expect(expected, created);
+    });
+
+    test("testing for upcoming movies url", () {
+      const String expected =
+          "https://api.themoviedb.org/3/movie/upcoming?api_key=$kApiKeyV3&language=en-US&page=$page";
+
+      final String created = const TmdbMoviesUpcoming().urlGenerator(page);
 
       expect(expected, created);
     });

@@ -1,5 +1,8 @@
 import 'package:watched_it_2/models/movie/movie_model.dart';
+import 'package:watched_it_2/models/paged_results_model.dart';
 
-abstract class ITopRatedMovies {
-  Future<Iterable<Movie>> getTopRatedMovies(int page);
+abstract class IMoviesTopRated {
+  Future<PagedResults<Movie>> getTopRatedMovies({
+    int page = 1,
+  });
 }

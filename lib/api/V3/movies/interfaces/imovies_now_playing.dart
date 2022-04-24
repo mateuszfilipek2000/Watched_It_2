@@ -1,5 +1,8 @@
 import 'package:watched_it_2/models/movie/movie_model.dart';
+import 'package:watched_it_2/models/paged_results_model.dart';
 
 abstract class INowPlayingMovies {
-  Future<Iterable<Movie>> getNowPlayingMovies(int page);
+  Future<PagedResults<Movie>> getNowPlayingMovies({
+    int page = 1,
+  });
 }
