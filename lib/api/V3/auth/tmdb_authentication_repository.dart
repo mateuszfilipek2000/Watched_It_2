@@ -10,6 +10,8 @@ import 'dart:convert';
 import 'package:watched_it_2/models/user/tmdb_user_provider.dart';
 import 'package:http/http.dart' as http;
 
+//TODO CHANGE AUTH REPOSITORY TO USE MIXINS FOR PARTS OF IMPLEMENTATION,
+//TODO MOVE ALL THE REQUESTS TO API RETRIEVE OBJECT
 class TmdbAuthenticationRepository implements AuthenticationRepository {
   @override
   Future<void> initialize() async {

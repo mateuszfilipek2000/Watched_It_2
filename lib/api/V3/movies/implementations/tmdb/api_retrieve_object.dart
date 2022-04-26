@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
+import 'package:watched_it_2/core/config/api_keys.dart';
 
 typedef DataSource = Future<http.Response> Function();
 typedef UrlGenerator = String Function();
@@ -47,6 +48,7 @@ class ApiRetrieveObjectImpl<T> implements IApiRetrieveObject<T> {
     this.jsonFormatter,
   });
 
+  ///Content type and bearer token headers are already provided by this method
   @override
   Future<T> retrieveObject({
     HttpMethod httpMethod = HttpMethod.get,
@@ -70,8 +72,11 @@ class ApiRetrieveObjectImpl<T> implements IApiRetrieveObject<T> {
             ? dataSource!()
             : http.post(
                 Uri.parse(urlGenerator()),
-                headers: headers,
-                body: body,
+                headers: {
+                  "content_type": "application/json;charset=utf-8",
+                  "authorization": "Bearer $kApiReadAccessTokenV4",
+                }..addAll(headers ?? {}),
+                body: json.encode(body),
               ));
         break;
     }
