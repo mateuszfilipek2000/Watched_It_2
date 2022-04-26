@@ -12,6 +12,11 @@ abstract class IApiRetrieveObject<T> {
   Future<T> retrieveObject();
 }
 
+enum HttpMethod {
+  get,
+  post,
+}
+
 class ApiResponseObjectConversionError {
   const ApiResponseObjectConversionError(this.message);
 
@@ -43,16 +48,35 @@ class ApiRetrieveObjectImpl<T> implements IApiRetrieveObject<T> {
   });
 
   @override
-  Future<T> retrieveObject() async {
-    final response = await (dataSource != null
-        ? dataSource!()
-        : http.get(
-            Uri.parse(
-              urlGenerator(),
-            ),
-          ));
+  Future<T> retrieveObject({
+    HttpMethod httpMethod = HttpMethod.get,
+    Map<String, String>? headers,
+    Map<String, String>? body,
+  }) async {
+    late http.Response response;
 
-    if (response.statusCode == 200) {
+    switch (httpMethod) {
+      case HttpMethod.get:
+        response = await (dataSource != null
+            ? dataSource!()
+            : http.get(
+                Uri.parse(
+                  urlGenerator(),
+                ),
+              ));
+        break;
+      case HttpMethod.post:
+        response = await (dataSource != null
+            ? dataSource!()
+            : http.post(
+                Uri.parse(urlGenerator()),
+                headers: headers,
+                body: body,
+              ));
+        break;
+    }
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
       try {
         // TODO CHECK IF JSON FORMATTER WORKS
         final decodedResponse = jsonFormatter == null
