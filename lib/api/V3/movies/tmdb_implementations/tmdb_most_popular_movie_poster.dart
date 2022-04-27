@@ -12,6 +12,7 @@ class TmdbMostPopularMovieImage implements IMostPopularMovieImage {
 
   /// returns partial url, you need to use image url provider in order to get
   /// full image url
+  //TODO CHANGE TO USE API HELPER
   @override
   Future<String> getMostPopularMovieImageUrl({
     required ImageType imageType,

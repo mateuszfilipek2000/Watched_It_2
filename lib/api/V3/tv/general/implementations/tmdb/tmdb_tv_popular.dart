@@ -1,4 +1,4 @@
-import 'package:http/src/response.dart';
+import 'package:http/http.dart';
 import 'package:watched_it_2/api/V3/movies/implementations/tmdb/api_retrieve_object.dart';
 import 'package:watched_it_2/api/V3/tv/general/interfaces/itv_popular.dart';
 import 'package:watched_it_2/api/tmdb_query_builder.dart';
