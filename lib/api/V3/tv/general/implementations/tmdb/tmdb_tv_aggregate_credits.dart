@@ -10,11 +10,11 @@ class TmdbTvAggregateCredits implements ITvAggregateCredits {
     required String id,
     Future<Response> Function()? dataSource,
   }) async {
-    return await ApiRetrieveObjectImpl<TvAggregatedCredits>(
+    return await ApiRetrieveObject.retrieveObject<TvAggregatedCredits>(
       urlGenerator: () => urlGenerator(id),
       jsonConverter: TvAggregatedCredits.fromJson,
       dataSource: dataSource,
-    ).retrieveObject();
+    );
   }
 }
 

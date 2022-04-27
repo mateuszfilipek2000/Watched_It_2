@@ -12,14 +12,14 @@ class TmdbTvSimilar implements ITvSimilar {
     int page = 1,
     Future<Response> Function()? dataSource,
   }) async {
-    return await ApiRetrieveObjectImpl<PagedResults<Tv>>(
+    return await ApiRetrieveObject.retrieveObject<PagedResults<Tv>>(
       urlGenerator: () => urlGenerator(id, page),
       jsonConverter: (json) => pagedResultsFromJson<Tv>(
         json,
         Tv.fromJson,
       ),
       dataSource: dataSource,
-    ).retrieveObject();
+    );
   }
 }
 

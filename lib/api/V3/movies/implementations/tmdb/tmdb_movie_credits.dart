@@ -10,11 +10,11 @@ class TmdbMovieCredits implements IMovieCredits {
     String id, {
     Future<Response> Function()? dataSource,
   }) async {
-    return await ApiRetrieveObjectImpl<Credits>(
+    return await ApiRetrieveObject.retrieveObject<Credits>(
       urlGenerator: () => urlGenerator(id),
       jsonConverter: Credits.fromJson,
       dataSource: dataSource,
-    ).retrieveObject();
+    );
   }
 }
 

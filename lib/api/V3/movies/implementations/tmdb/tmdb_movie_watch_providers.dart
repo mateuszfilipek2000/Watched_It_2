@@ -10,11 +10,11 @@ class TmdbMovieWatchProviders implements IMovieWatchProviders {
     String id, {
     Future<Response> Function()? dataSource,
   }) async {
-    return await ApiRetrieveObjectImpl<JustWatchWatchProviders>(
+    return await ApiRetrieveObject.retrieveObject<JustWatchWatchProviders>(
       urlGenerator: () => urlGenerator(id),
       jsonConverter: JustWatchWatchProviders.fromJson,
       dataSource: dataSource,
-    ).retrieveObject();
+    );
   }
 }
 

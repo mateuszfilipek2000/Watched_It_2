@@ -8,11 +8,11 @@ class TmdbTvImages implements ITvImages {
   @override
   Future<Images> getTvImages(
       {required String id, Future<Response> Function()? dataSource}) async {
-    return await ApiRetrieveObjectImpl<Images>(
+    return await ApiRetrieveObject.retrieveObject<Images>(
       urlGenerator: () => urlGenerator(id),
       jsonConverter: Images.fromJson,
       dataSource: dataSource,
-    ).retrieveObject();
+    );
   }
 }
 

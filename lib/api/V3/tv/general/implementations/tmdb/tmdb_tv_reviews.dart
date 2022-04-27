@@ -12,14 +12,14 @@ class TmdbTvReviews implements ITvReviews {
     required String id,
     Future<Response> Function()? dataSource,
   }) async {
-    return await ApiRetrieveObjectImpl<PagedResults<Review>>(
+    return await ApiRetrieveObject.retrieveObject<PagedResults<Review>>(
       urlGenerator: () => urlGenerator(id, page),
       jsonConverter: (json) => pagedResultsFromJson<Review>(
         json,
         Review.fromJson,
       ),
       dataSource: dataSource,
-    ).retrieveObject();
+    );
   }
 }
 

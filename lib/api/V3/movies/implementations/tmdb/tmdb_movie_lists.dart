@@ -11,11 +11,12 @@ class TmdbMovieLists implements IMovieLists {
     int page = 1,
     Future<Response> Function()? dataSource,
   }) async {
-    return await ApiRetrieveObjectImpl<ListModel>(
+    //TODO CHANGE LIST MODEL TO USE PAGED RESULTS INSTEAD
+    return await ApiRetrieveObject.retrieveObject<ListModel>(
       urlGenerator: () => urlGenerator(page: page, id: id),
       jsonConverter: ListModel.fromJson,
       dataSource: dataSource,
-    ).retrieveObject();
+    );
   }
 }
 

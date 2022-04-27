@@ -10,11 +10,11 @@ class TmdbMovieImages implements IMovieImages {
     String id, {
     Future<Response> Function()? dataSource,
   }) async {
-    return await ApiRetrieveObjectImpl<Images>(
+    return await ApiRetrieveObject.retrieveObject<Images>(
       urlGenerator: () => urlGenerator(id),
       jsonConverter: Images.fromJson,
       dataSource: dataSource,
-    ).retrieveObject();
+    );
   }
 }
 

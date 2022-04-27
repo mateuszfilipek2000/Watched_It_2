@@ -8,11 +8,11 @@ class TmdbTvKeywords implements ITvKeywords {
   @override
   Future<Keywords> getTvKeywords(
       {required String id, Future<Response> Function()? dataSource}) async {
-    return await ApiRetrieveObjectImpl<Keywords>(
+    return await ApiRetrieveObject.retrieveObject<Keywords>(
       urlGenerator: () => urlGenerator(id),
       jsonConverter: Keywords.fromJson,
       dataSource: dataSource,
-    ).retrieveObject();
+    );
   }
 }
 

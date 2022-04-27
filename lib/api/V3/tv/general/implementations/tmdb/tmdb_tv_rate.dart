@@ -16,8 +16,9 @@ class TmdbTvRate implements IRateMedia<Tv> {
       Uri.parse(urlGenerator(media.id.toString())),
       headers: {},
       body: {},
+      
     ));
-    await http.post();
+    // await http.post();
   }
 }
 
@@ -26,7 +27,7 @@ extension UrlGenerator on TmdbTvRate {
         version: TmdbApiVersion.v3,
         path: "movie/$id/recommendations",
         queryParameters: {
-          "page": page.toString(),
+          "page": id.toString(),
         },
       ).toString();
 }

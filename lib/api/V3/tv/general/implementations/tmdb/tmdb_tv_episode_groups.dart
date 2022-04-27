@@ -10,13 +10,14 @@ class TmdbEpisodeGroups implements ITvEpisodeGroups {
     required String id,
     Future<Response> Function()? dataSource,
   }) async {
-    return await ApiRetrieveObjectImpl<List<EpisodeGroup>>(
+    //TODO CHANGE IT TO PAGED RESULTS?
+    return await ApiRetrieveObject.retrieveObject<List<EpisodeGroup>>(
       urlGenerator: () => urlGenerator(id),
       jsonConverter: (Map<String, dynamic> json) => json["results"].map(
         (e) => EpisodeGroup.fromJson(json),
       ),
       dataSource: dataSource,
-    ).retrieveObject();
+    );
   }
 }
 

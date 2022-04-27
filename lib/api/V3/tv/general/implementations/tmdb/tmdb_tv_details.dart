@@ -10,11 +10,11 @@ class TmdbTvDetails implements ITvDetails {
     required String id,
     Future<Response> Function()? dataSource,
   }) async {
-    return await ApiRetrieveObjectImpl<DetailedTv>(
+    return await ApiRetrieveObject.retrieveObject<DetailedTv>(
       urlGenerator: () => urlGenerator(id),
       jsonConverter: DetailedTv.fromJson,
       dataSource: dataSource,
-    ).retrieveObject();
+    );
   }
 }
 

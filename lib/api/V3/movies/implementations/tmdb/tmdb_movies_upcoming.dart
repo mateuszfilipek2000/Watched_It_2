@@ -12,14 +12,14 @@ class TmdbMoviesUpcoming implements IMoviesUpcoming {
     int page = 1,
     Future<Response> Function()? dataSource,
   }) async {
-    return await ApiRetrieveObjectImpl<PagedResults<Movie>>(
+    return await ApiRetrieveObject.retrieveObject<PagedResults<Movie>>(
       urlGenerator: () => urlGenerator(page),
       jsonConverter: (json) => pagedResultsFromJson<Movie>(
         json,
         Movie.fromJson,
       ),
       dataSource: dataSource,
-    ).retrieveObject();
+    );
   }
 }
 

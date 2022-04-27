@@ -9,14 +9,14 @@ class TmdbTvOnTheAir implements ITvOnTheAir {
   @override
   Future<PagedResults<Tv>> getOnTheAirTv(
       {int page = 1, Future<Response> Function()? dataSource}) async {
-    return await ApiRetrieveObjectImpl<PagedResults<Tv>>(
+    return await ApiRetrieveObject.retrieveObject<PagedResults<Tv>>(
       urlGenerator: () => urlGenerator(),
       jsonConverter: (json) => pagedResultsFromJson<Tv>(
         json,
         Tv.fromJson,
       ),
       dataSource: dataSource,
-    ).retrieveObject();
+    );
   }
 }
 

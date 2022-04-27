@@ -11,11 +11,11 @@ class TmdbMovieAccountStates implements IMovieAccountStates {
     String id, {
     Future<Response> Function()? dataSource,
   }) async {
-    return await ApiRetrieveObjectImpl<AccountStates>(
+    return await ApiRetrieveObject.retrieveObject<AccountStates>(
       urlGenerator: () => urlGenerator(id),
       jsonConverter: AccountStates.fromJson,
       dataSource: dataSource,
-    ).retrieveObject();
+    );
   }
 }
 

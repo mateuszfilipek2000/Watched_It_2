@@ -10,11 +10,11 @@ class TmdbMovieDetails implements IMovieDetails {
     String id, {
     Future<Response> Function()? dataSource,
   }) async {
-    return await ApiRetrieveObjectImpl<DetailedMovie>(
+    return await ApiRetrieveObject.retrieveObject<DetailedMovie>(
       urlGenerator: () => urlGenerator(id),
       jsonConverter: DetailedMovie.fromJson,
       dataSource: dataSource,
-    ).retrieveObject();
+    );
   }
 }
 
