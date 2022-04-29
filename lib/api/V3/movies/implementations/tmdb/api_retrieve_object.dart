@@ -9,9 +9,9 @@ typedef UrlGenerator = String Function();
 typedef JsonConverter<T> = T Function(Map<String, dynamic>);
 typedef JsonFormatter = Map<String, dynamic> Function(Map<String, dynamic>);
 
-abstract class IApiRetrieveObject<T> {
-  Future<T> retrieveObject();
-}
+// abstract class IApiRetrieveObject<T> {
+//   Future<T> retrieveObject();
+// }
 
 enum HttpMethod {
   get,
@@ -61,7 +61,7 @@ class ApiRetrieveObject {
     switch (httpMethod) {
       case HttpMethod.get:
         response = await (dataSource != null
-            ? dataSource!()
+            ? dataSource()
             : http.get(
                 Uri.parse(
                   urlGenerator(),
@@ -70,7 +70,7 @@ class ApiRetrieveObject {
         break;
       case HttpMethod.post:
         response = await (dataSource != null
-            ? dataSource!()
+            ? dataSource()
             : http.post(
                 Uri.parse(urlGenerator()),
                 headers: {
@@ -87,7 +87,7 @@ class ApiRetrieveObject {
         // TODO CHECK IF JSON FORMATTER WORKS
         final decodedResponse = jsonFormatter == null
             ? json.decode(response.body)
-            : jsonFormatter!(
+            : jsonFormatter(
                 json.decode(response.body),
               );
         return jsonConverter(decodedResponse);

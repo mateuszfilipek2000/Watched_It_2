@@ -10,9 +10,10 @@ class TmdbTvRate implements IRateMedia<Tv> {
     required double rating,
     required String sessionId,
     required String url,
+    Map<String, String>? optionalParameters,
     Future<Response> Function()? dataSource,
   }) async {
-    rate<Tv>(
+    await rate<Tv>(
       rating: rating,
       url: urlGenerator(
         media.id.toString(),

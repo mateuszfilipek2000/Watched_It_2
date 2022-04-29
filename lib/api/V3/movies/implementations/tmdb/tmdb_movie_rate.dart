@@ -11,9 +11,10 @@ class TmdbMovieRate implements IRateMedia<Movie> {
     required double rating,
     required String sessionId,
     required String url,
+    Map<String, String>? optionalParameters,
     Future<Response> Function()? dataSource,
   }) async {
-    rate<Movie>(
+    await rate<Movie>(
       rating: rating,
       url: urlGenerator(
         media.id.toString(),
