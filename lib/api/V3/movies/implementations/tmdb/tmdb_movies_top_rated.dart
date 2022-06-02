@@ -9,14 +9,15 @@ class TmdbMoviesTopRated implements IMoviesTopRated {
   // const TmdbMoviesTopRated();
   @override
   Future<PagedResults<Movie>> getTopRatedMovies({
-    int page = 1,
+    // int page = 1,
     Future<Response> Function()? dataSource,
   }) async {
     return await ApiRetrieveObject.retrieveObject<PagedResults<Movie>>(
-      urlGenerator: () => urlGenerator(page),
+      urlGenerator: () => urlGenerator(1),
       jsonConverter: (json) => pagedResultsFromJson<Movie>(
         json,
         Movie.fromJson,
+        urlGenerator,
       ),
       dataSource: dataSource,
     );

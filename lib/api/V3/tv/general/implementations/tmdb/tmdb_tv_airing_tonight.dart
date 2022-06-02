@@ -7,13 +7,16 @@ import 'package:watched_it_2/models/paged_results_model.dart';
 
 class TmdbAiringTonight implements ITvAiringTonight {
   @override
-  Future<PagedResults<Tv>> getAiringTonightTv(
-      {int page = 1, Future<Response> Function()? dataSource}) async {
+  Future<PagedResults<Tv>> getAiringTonightTv({
+    // int page = 1,
+    Future<Response> Function()? dataSource,
+  }) async {
     return await ApiRetrieveObject.retrieveObject<PagedResults<Tv>>(
-      urlGenerator: () => urlGenerator(),
+      urlGenerator: () => urlGenerator(1),
       jsonConverter: (json) => pagedResultsFromJson<Tv>(
         json,
         Tv.fromJson,
+        urlGenerator,
       ),
       dataSource: dataSource,
     );
@@ -21,9 +24,11 @@ class TmdbAiringTonight implements ITvAiringTonight {
 }
 
 extension UrlGenerator on TmdbAiringTonight {
-  String urlGenerator() => TmdbQueryBuilder.buildUri(
+  String urlGenerator(int page) => TmdbQueryBuilder.buildUri(
         version: TmdbApiVersion.v3,
         path: "tv/airing_today",
-        queryParameters: {},
+        queryParameters: {
+          "page": page.toString(),
+        },
       ).toString();
 }

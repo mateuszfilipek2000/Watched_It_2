@@ -8,11 +8,15 @@ import 'package:watched_it_2/models/paged_results_model.dart';
 class TmdbTvTopRated implements ITvTopRated {
   @override
   Future<PagedResults<Tv>> getTopRatedTv({
-    int page = 1,
+    // int page = 1,
     Future<Response> Function()? dataSource,
   }) async {
-    return await ApiRetrieveObject.retrieveObject<PagedResults<Tv>>(
-      urlGenerator: () => urlGenerator(page),
+    if (pagedResults != null) {
+      return pagedResults!;
+    }
+
+    pagedResults = await ApiRetrieveObject.retrieveObject<PagedResults<Tv>>(
+      urlGenerator: () => urlGenerator(1),
       jsonConverter: (json) => pagedResultsFromJson<Tv>(
         json,
         Tv.fromJson,
@@ -20,7 +24,11 @@ class TmdbTvTopRated implements ITvTopRated {
       ),
       dataSource: dataSource,
     );
+
+    return pagedResults!;
   }
+
+  PagedResults<Tv>? pagedResults;
 }
 
 extension UrlGenerator on TmdbTvTopRated {

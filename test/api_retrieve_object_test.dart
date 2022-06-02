@@ -402,6 +402,9 @@ void main() {
     });
   });
 
+  // ignore: non_constant_identifier_names
+  String PLACEHOLDERFUNC(int page) => "";
+
   group("Movie Recommendations, checking if Paged Results work correctly", () {
     late String file;
     late IMovieRecommentations interface;
@@ -419,10 +422,11 @@ void main() {
       final expected = pagedResultsFromJson(
         json.decode(file),
         Movie.fromJson,
+        PLACEHOLDERFUNC,
       );
 
       final generated = await interface.getRecommendations(
-        page: 1,
+        // page: 1,
         id: "3",
         dataSource: () async => http.Response(
           file,
@@ -440,7 +444,7 @@ void main() {
 
       expect(
         () => interface.getRecommendations(
-          page: 1,
+          // page: 1,
           id: "3",
           dataSource: () async => http.Response(
             "",
@@ -456,7 +460,7 @@ void main() {
 
       expect(
         () => interface.getRecommendations(
-          page: 1,
+          // page: 1,
           id: "3",
           dataSource: () async => http.Response(
             "fail",
@@ -487,10 +491,11 @@ void main() {
       final expected = pagedResultsFromJson(
         json.decode(file),
         Review.fromJson,
+        PLACEHOLDERFUNC,
       );
 
       final generated = await interface.getMovieReviews(
-        page: 1,
+        // page: 1,
         id: "3",
         dataSource: () async => http.Response(file, 200, headers: {
           HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
@@ -506,7 +511,7 @@ void main() {
 
       expect(
         () => interface.getMovieReviews(
-          page: 1,
+          // page: 1,
           id: "3",
           dataSource: () async => http.Response(
             "",
@@ -522,7 +527,7 @@ void main() {
 
       expect(
         () => interface.getMovieReviews(
-          page: 1,
+          // page: 1,
           id: "3",
           dataSource: () async => http.Response(
             "fail",
@@ -553,10 +558,11 @@ void main() {
       final expected = pagedResultsFromJson(
         json.decode(file),
         Movie.fromJson,
+        PLACEHOLDERFUNC,
       );
 
       final generated = await interface.getSimilarMovies(
-        page: 1,
+        // page: 1,
         id: "3",
         dataSource: () async => http.Response(
           file,
@@ -576,7 +582,7 @@ void main() {
 
       expect(
         () => interface.getSimilarMovies(
-          page: 1,
+          // page: 1,
           id: "3",
           dataSource: () async => http.Response(
             "",
@@ -592,7 +598,7 @@ void main() {
 
       expect(
         () => interface.getSimilarMovies(
-          page: 1,
+          // page: 1,
           id: "3",
           dataSource: () async => http.Response(
             "fail",
@@ -690,10 +696,11 @@ void main() {
       final expected = pagedResultsFromJson(
         json.decode(file),
         Movie.fromJson,
+        PLACEHOLDERFUNC,
       );
 
       final generated = await interface.getNowPlayingMovies(
-        page: 1,
+        // page: 1,
         dataSource: () async => http.Response(
           file,
           200,
@@ -712,7 +719,7 @@ void main() {
 
       expect(
         () => interface.getNowPlayingMovies(
-          page: 1,
+          // page: 1,
           dataSource: () async => http.Response(
             "",
             200,
@@ -727,7 +734,7 @@ void main() {
 
       expect(
         () => interface.getNowPlayingMovies(
-          page: 1,
+          // page: 1,
           dataSource: () async => http.Response(
             "fail",
             404,
@@ -757,10 +764,11 @@ void main() {
       final expected = pagedResultsFromJson(
         json.decode(file),
         Movie.fromJson,
+        PLACEHOLDERFUNC,
       );
 
       final generated = await interface.getPopularMovies(
-        page: 1,
+        // page: 1,
         dataSource: () async => http.Response(
           file,
           200,
@@ -779,7 +787,7 @@ void main() {
 
       expect(
         () => interface.getPopularMovies(
-          page: 1,
+          // page: 1,
           dataSource: () async => http.Response(
             "",
             200,
@@ -794,7 +802,7 @@ void main() {
 
       expect(
         () => interface.getPopularMovies(
-          page: 1,
+          // page: 1,
           dataSource: () async => http.Response(
             "fail",
             404,
@@ -824,10 +832,11 @@ void main() {
       final expected = pagedResultsFromJson(
         json.decode(file),
         Movie.fromJson,
+        PLACEHOLDERFUNC,
       );
 
       final generated = await interface.getTopRatedMovies(
-        page: 1,
+        // page: 1,
         dataSource: () async => http.Response(
           file,
           200,
@@ -846,7 +855,7 @@ void main() {
 
       expect(
         () => interface.getTopRatedMovies(
-          page: 1,
+          // page: 1,
           dataSource: () async => http.Response(
             "",
             200,
@@ -861,7 +870,7 @@ void main() {
 
       expect(
         () => interface.getTopRatedMovies(
-          page: 1,
+          // page: 1,
           dataSource: () async => http.Response(
             "fail",
             404,
@@ -891,10 +900,11 @@ void main() {
       final expected = pagedResultsFromJson(
         json.decode(file),
         Movie.fromJson,
+        PLACEHOLDERFUNC,
       );
 
       final generated = await interface.getUpcomingMovies(
-        page: 1,
+        // page: 1,
         dataSource: () async => http.Response(
           file,
           200,
@@ -913,7 +923,7 @@ void main() {
 
       expect(
         () => interface.getUpcomingMovies(
-          page: 1,
+          // page: 1,
           dataSource: () async => http.Response(
             "",
             200,
@@ -928,7 +938,7 @@ void main() {
 
       expect(
         () => interface.getUpcomingMovies(
-          page: 1,
+          // page: 1,
           dataSource: () async => http.Response(
             "fail",
             404,

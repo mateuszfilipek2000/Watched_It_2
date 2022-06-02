@@ -8,15 +8,16 @@ import 'package:watched_it_2/models/paged_results_model.dart';
 class TmdbTvReviews implements ITvReviews {
   @override
   Future<PagedResults<Review>> getTvReviews({
-    int page = 1,
+    // int page = 1,
     required String id,
     Future<Response> Function()? dataSource,
   }) async {
     return await ApiRetrieveObject.retrieveObject<PagedResults<Review>>(
-      urlGenerator: () => urlGenerator(id, page),
+      urlGenerator: () => urlGenerator(id, 1),
       jsonConverter: (json) => pagedResultsFromJson<Review>(
         json,
         Review.fromJson,
+        (int page) => urlGenerator(id, page),
       ),
       dataSource: dataSource,
     );

@@ -9,14 +9,15 @@ class TmdbMovieRecommendations implements IMovieRecommentations {
   @override
   Future<PagedResults<Movie>> getRecommendations({
     required String id,
-    int page = 1,
+    // int page = 1,
     Future<Response> Function()? dataSource,
   }) async {
     return await ApiRetrieveObject.retrieveObject<PagedResults<Movie>>(
-      urlGenerator: () => urlGenerator(id, page),
+      urlGenerator: () => urlGenerator(id, 1),
       jsonConverter: (json) => pagedResultsFromJson<Movie>(
         json,
         Movie.fromJson,
+        (int page) => urlGenerator(id, page),
       ),
       dataSource: dataSource,
     );

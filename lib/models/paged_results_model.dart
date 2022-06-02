@@ -69,7 +69,7 @@ class PagedResults<T> with EquatableMixin {
       return _results[page - 1];
     }
 
-    // creating new paged results object using new page (reusing existing json converter)
+    // creating new paged results object using new page index (reusing existing json converter)
     final fetchedResults =
         await ApiRetrieveObject.retrieveObject<PagedResults<T>>(
       urlGenerator: () => fetchPage(page),
@@ -79,7 +79,7 @@ class PagedResults<T> with EquatableMixin {
         fetchPage,
       ),
     );
-    // extracting results from acquired paged results object
+    // extracting results from the acquired paged results object
     _results.add(fetchedResults.results);
 
     this.page = page;

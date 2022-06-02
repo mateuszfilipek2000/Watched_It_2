@@ -9,14 +9,15 @@ class TmdbMoviesUpcoming implements IMoviesUpcoming {
   // const TmdbMoviesUpcoming();
   @override
   Future<PagedResults<Movie>> getUpcomingMovies({
-    int page = 1,
+    // int page = 1,
     Future<Response> Function()? dataSource,
   }) async {
     return await ApiRetrieveObject.retrieveObject<PagedResults<Movie>>(
-      urlGenerator: () => urlGenerator(page),
+      urlGenerator: () => urlGenerator(1),
       jsonConverter: (json) => pagedResultsFromJson<Movie>(
         json,
         Movie.fromJson,
+        urlGenerator,
       ),
       dataSource: dataSource,
     );
