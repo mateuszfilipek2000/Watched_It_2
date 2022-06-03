@@ -1,4 +1,6 @@
-class Person {
+import 'package:watched_it_2/models/idisplayable.dart';
+
+class Person implements IDisplayable {
   const Person({
     required this.id,
     required this.gender,
@@ -17,4 +19,16 @@ class Person {
         gender: json["gender"],
         profilePath: json["profile_path"],
       );
+
+  @override
+  String? get backdropPath => null;
+
+  @override
+  String? get posterPath => profilePath;
+
+  @override
+  String? get subtitle => null;
+
+  @override
+  String get title => name;
 }

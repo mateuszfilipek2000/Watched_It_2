@@ -1,9 +1,9 @@
-import 'package:http/src/response.dart';
-import 'package:watched_it_2/api/V3/movies/implementations/tmdb/api_retrieve_object.dart';
+import 'package:http/http.dart';
+import 'package:watched_it_2/core/config/api_retrieve_object.dart';
 import 'package:watched_it_2/api/V3/tv/general/interfaces/itv_airing_tonight.dart';
 import 'package:watched_it_2/api/tmdb_query_builder.dart';
-import 'package:watched_it_2/models/tv/tv_model.dart';
 import 'package:watched_it_2/models/paged_results_model.dart';
+import 'package:watched_it_2/models/tv/tv_model.dart';
 
 class TmdbAiringTonight implements ITvAiringTonight {
   @override

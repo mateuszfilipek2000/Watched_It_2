@@ -84,7 +84,6 @@ class ApiRetrieveObject {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       try {
-        // TODO CHECK IF JSON FORMATTER WORKS
         final decodedResponse = jsonFormatter == null
             ? json.decode(response.body)
             : jsonFormatter(

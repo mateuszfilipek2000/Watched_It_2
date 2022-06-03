@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:watched_it_2/models/idisplayable.dart';
 
-class Movie with EquatableMixin {
+class Movie with EquatableMixin implements IDisplayable {
   Movie({
     required this.posterPath,
     required this.adult,
@@ -18,6 +19,7 @@ class Movie with EquatableMixin {
     required this.voteAverage,
   });
 
+  @override
   final String? posterPath;
   final bool adult;
   final String overview;
@@ -26,7 +28,9 @@ class Movie with EquatableMixin {
   final int id;
   final String originalTitle;
   final String originalLanguage;
+  @override
   final String title;
+  @override
   final String? backdropPath;
   final double popularity;
   final int voteCount;
@@ -56,4 +60,7 @@ class Movie with EquatableMixin {
         originalTitle,
         title,
       ];
+
+  @override
+  String? get subtitle => overview;
 }

@@ -10,7 +10,7 @@ import 'package:watched_it_2/presentation/blocs/authentication_bloc/authenticati
 import 'package:watched_it_2/presentation/blocs/login_background_bloc/login_background_bloc.dart';
 import 'package:watched_it_2/presentation/blocs/login_background_bloc/login_background_event.dart';
 import 'package:watched_it_2/presentation/blocs/login_background_bloc/login_background_state.dart';
-import 'package:watched_it_2/presentation/screens/dashboard_screen/dashboard_screen.dart';
+import 'package:watched_it_2/presentation/screens/logged_in_screen/logged_in_screen.dart';
 
 /*
   All devices share the same login screen ui
@@ -82,7 +82,8 @@ class _LoginScreenState extends State<LoginScreen>
           ..add(const AuthenticationEventInitialize()),
         listener: (context, state) {
           if (state is AuthenticationStateLoggedIn) {
-            Navigator.pushNamed(context, DashboardScreen.routeName);
+            // user succesfully logged in, routing to logged in screen
+            Navigator.popAndPushNamed(context, LoggedInScreen.routeName);
           } else if (state is AuthenticationStateLoginFailure) {
             showDialog(
               context: context,
@@ -104,7 +105,8 @@ class _LoginScreenState extends State<LoginScreen>
               builder: (context) {
                 return AlertDialog(
                   title: const Text(
-                      "Tap the ok button after you've approved of request token!"),
+                    "Tap the ok button after you've approved of request token!",
+                  ),
                   actions: [
                     TextButton(
                       child: const Text("Ok"),

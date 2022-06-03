@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:watched_it_2/api/V3/movies/implementations/tmdb/api_retrieve_object.dart';
+import 'package:watched_it_2/core/config/api_retrieve_object.dart';
 import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_account_states.dart';
 import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_credits.dart';
 import 'package:watched_it_2/api/V3/movies/implementations/tmdb/tmdb_movie_details.dart';

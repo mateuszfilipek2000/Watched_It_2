@@ -1,5 +1,5 @@
 import 'package:http/http.dart';
-import 'package:watched_it_2/api/V3/movies/implementations/tmdb/api_retrieve_object.dart';
+import 'package:watched_it_2/core/config/api_retrieve_object.dart';
 import 'package:watched_it_2/api/V3/movies/interfaces/imovie_details.dart';
 import 'package:watched_it_2/api/tmdb_query_builder.dart';
 import 'package:watched_it_2/models/movie/detailed_movie_model.dart';

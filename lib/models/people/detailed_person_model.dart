@@ -1,5 +1,10 @@
 import 'package:watched_it_2/models/people/person_model.dart';
 
+/// using [DetailedPerson] model provides us with the information about
+/// what a person is known for
+///
+/// [DetailedPerson] should be prefered over [Person] if you need to display more than just
+/// a person name and profile picture
 class DetailedPerson extends Person {
   DetailedPerson({
     required this.birthday,
@@ -52,4 +57,7 @@ class DetailedPerson extends Person {
         imdbId: json["imdb_id"],
         homepage: json["homepage"],
       );
+
+  @override
+  String? get subtitle => knownForDepartment;
 }

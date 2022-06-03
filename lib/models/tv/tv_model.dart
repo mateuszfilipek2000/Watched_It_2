@@ -1,4 +1,6 @@
-class Tv {
+import 'package:watched_it_2/models/idisplayable.dart';
+
+class Tv implements IDisplayable {
   Tv({
     required this.posterPath,
     required this.popularity,
@@ -15,9 +17,11 @@ class Tv {
     required this.originalName,
   });
 
+  @override
   final String? posterPath;
   final double popularity;
   final int id;
+  @override
   final String? backdropPath;
   final double voteAverage;
   final String overview;
@@ -44,4 +48,10 @@ class Tv {
         name: json["name"],
         originalName: json["original_name"],
       );
+
+  @override
+  String? get subtitle => overview;
+
+  @override
+  String get title => name;
 }

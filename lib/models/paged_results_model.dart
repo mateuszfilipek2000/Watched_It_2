@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:watched_it_2/api/V3/movies/implementations/tmdb/api_retrieve_object.dart';
+import 'package:watched_it_2/core/config/api_retrieve_object.dart';
 
 /// this function should return
 typedef CreateFetchResultsUrl = String Function(int);
