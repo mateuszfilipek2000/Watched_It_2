@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 class TmdbImageConfiguration implements IImageConfiguration {
   @override
-  Future<ImageConfiguration> getImageConfiguration() async {
+  Future<ApiImageConfiguration> getImageConfiguration() async {
     final response = await http.get(
       Uri.parse(
           "https://api.themoviedb.org/3/configuration?api_key=$kApiKeyV3"),
@@ -17,7 +17,7 @@ class TmdbImageConfiguration implements IImageConfiguration {
     if (response.statusCode == 200) {
       final decodedResponse = json.decode(response.body);
       try {
-        return ImageConfiguration.fromJson(decodedResponse["images"]);
+        return ApiImageConfiguration.fromJson(decodedResponse["images"]);
       } catch (e) {
         log("Couldn't parse image configuration");
         log(response.toString());

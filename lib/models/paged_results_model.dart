@@ -54,7 +54,7 @@ class PagedResults<T> with EquatableMixin {
 
   final List<List<T>> _results = [];
 
-  List<T> get results => _results[page];
+  List<T> get results => _results[page - 1];
 
   Future<List<T>> loadPage(int page) async {
     if (page < 1) {

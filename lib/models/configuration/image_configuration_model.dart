@@ -1,5 +1,5 @@
-class ImageConfiguration {
-  const ImageConfiguration({
+class ApiImageConfiguration {
+  const ApiImageConfiguration({
     required this.baseUrl,
     required this.secureBaseUrl,
     required this.backdropSizes,
@@ -17,8 +17,8 @@ class ImageConfiguration {
   final List<String> profileSizes;
   final List<String> stillSizes;
 
-  factory ImageConfiguration.fromJson(Map<String, dynamic> json) =>
-      ImageConfiguration(
+  factory ApiImageConfiguration.fromJson(Map<String, dynamic> json) =>
+      ApiImageConfiguration(
         baseUrl: json["base_url"],
         secureBaseUrl: json["secure_base_url"],
         backdropSizes: List<String>.from(json["backdrop_sizes"].map((x) => x)),
@@ -31,10 +31,10 @@ class ImageConfiguration {
   Map<String, dynamic> toJson() => {
         "base_url": baseUrl,
         "secure_base_url": secureBaseUrl,
-        "backdrop_sizes": List<dynamic>.from(backdropSizes.map((x) => x)),
-        "logo_sizes": List<dynamic>.from(logoSizes.map((x) => x)),
-        "poster_sizes": List<dynamic>.from(posterSizes.map((x) => x)),
-        "profile_sizes": List<dynamic>.from(profileSizes.map((x) => x)),
-        "still_sizes": List<dynamic>.from(stillSizes.map((x) => x)),
+        "backdrop_sizes": List<String>.from(backdropSizes.map((x) => x)),
+        "logo_sizes": List<String>.from(logoSizes.map((x) => x)),
+        "poster_sizes": List<String>.from(posterSizes.map((x) => x)),
+        "profile_sizes": List<String>.from(profileSizes.map((x) => x)),
+        "still_sizes": List<String>.from(stillSizes.map((x) => x)),
       };
 }

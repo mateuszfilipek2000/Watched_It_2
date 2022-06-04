@@ -20,7 +20,7 @@ class TmdbApiConfiguration
     DateTime? generationDate,
     LanguageConfiguration? languageConfiguration,
     CountryConfiguration? countryConfiguration,
-    ImageConfiguration? imageConfiguration,
+    ApiImageConfiguration? imageConfiguration,
   })  : _generationDate = generationDate,
         _languageConfiguration = languageConfiguration,
         _countryConfiguration = countryConfiguration,
@@ -28,10 +28,13 @@ class TmdbApiConfiguration
 
   /// retrieves basic api configuration, information about image sizes,
   /// available languages etc.
+  ///
   /// Sends api request to fetch new configs only if the previous ones are
-  /// older than 7 days, or are invalid/empty.
+  /// older than 30 days, or are invalid/empty.
+  ///
   /// If you want to force getting new configs, then just simply remove
   /// existing ones from shared preferences.
+  ///
   /// Config is saved in shared prefs under the key of runtimeType.toString()
   Future<void> getApiConfiguration() async {
     // checking if configurations are already saved in shared prefs
@@ -46,7 +49,7 @@ class TmdbApiConfiguration
         // checking if configurations are new enough to not retrieve new ones
         if (restoredConfig._generationDate != null &&
             restoredConfig._generationDate!.difference(DateTime.now()).inDays <=
-                7) {
+                30) {
           // configs are new enough to be reused, saving as instance variables
           _countryConfiguration = restoredConfig._countryConfiguration;
           _imageConfiguration = restoredConfig._imageConfiguration;
@@ -104,7 +107,7 @@ class TmdbApiConfiguration
   }
 
   @override
-  Future<ImageConfiguration> getImageConfiguration() async {
+  Future<ApiImageConfiguration> getImageConfiguration() async {
     if (_imageConfiguration != null) {
       return _imageConfiguration!;
     }
@@ -117,7 +120,7 @@ class TmdbApiConfiguration
   DateTime? _generationDate;
   LanguageConfiguration? _languageConfiguration;
   CountryConfiguration? _countryConfiguration;
-  ImageConfiguration? _imageConfiguration;
+  ApiImageConfiguration? _imageConfiguration;
 
   factory TmdbApiConfiguration.fromJson(Map<String, dynamic> json) =>
       TmdbApiConfiguration(
@@ -128,7 +131,7 @@ class TmdbApiConfiguration
         countryConfiguration: CountryConfiguration.fromJson(
           json["country_configuration"],
         ),
-        imageConfiguration: ImageConfiguration.fromJson(
+        imageConfiguration: ApiImageConfiguration.fromJson(
           json["image_configuration"],
         ),
       );

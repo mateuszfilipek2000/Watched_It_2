@@ -1,26 +1,25 @@
 import 'dart:developer';
-
-import 'package:watched_it_2/api/V3/configuration/interfaces/iimageconfiguration.dart';
 import 'package:watched_it_2/api/interfaces/iimage_url_provider.dart';
+import 'package:watched_it_2/models/configuration/image_configuration_model.dart';
 
 class TmdbImageUrlProvider implements IImageUrlProvider {
   const TmdbImageUrlProvider({
-    required this.imageConfigurationProvider,
+    required this.imageConfiguration,
   });
 
   @override
-  getFullImageUrl({
+  String getFullImageUrl({
     required String url,
     required ImageType imageType,
     required double size,
-  }) async {
+  }) {
     if (size < 0 || size > 100) {
       log("size outside of acceptable range, size = $size");
       throw const FormatException("Size needs to be between 0 and 100");
     }
 
-    final imageConfiguration =
-        await imageConfigurationProvider.getImageConfiguration();
+    // final imageConfiguration =
+    //     await imageConfigurationProvider.getImageConfiguration();
 
     final secureBase = imageConfiguration.secureBaseUrl;
 
@@ -53,5 +52,6 @@ class TmdbImageUrlProvider implements IImageUrlProvider {
     }
   }
 
-  final IImageConfiguration imageConfigurationProvider;
+  @override
+  final ApiImageConfiguration imageConfiguration;
 }
