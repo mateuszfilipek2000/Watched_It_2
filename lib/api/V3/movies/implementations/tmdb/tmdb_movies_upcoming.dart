@@ -12,7 +12,11 @@ class TmdbMoviesUpcoming implements IMoviesUpcoming {
     // int page = 1,
     Future<Response> Function()? dataSource,
   }) async {
-    return await ApiRetrieveObject.retrieveObject<PagedResults<Movie>>(
+    if (pagedResults != null) {
+      return pagedResults!;
+    }
+
+    pagedResults = await ApiRetrieveObject.retrieveObject<PagedResults<Movie>>(
       urlGenerator: () => urlGenerator(1),
       jsonConverter: (json) => pagedResultsFromJson<Movie>(
         json,
@@ -21,7 +25,10 @@ class TmdbMoviesUpcoming implements IMoviesUpcoming {
       ),
       dataSource: dataSource,
     );
+    return pagedResults!;
   }
+
+  PagedResults<Movie>? pagedResults;
 }
 
 extension UrlGenerator on TmdbMoviesUpcoming {

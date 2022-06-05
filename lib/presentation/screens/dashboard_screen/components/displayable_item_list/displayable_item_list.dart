@@ -30,6 +30,8 @@ class DisplayableItemList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      scrollDirection: Axis.horizontal,
+      // shrinkWrap: true,
       itemCount: items.length,
       separatorBuilder: (_, __) => const SizedBox(
         width: 10.0,
@@ -41,7 +43,7 @@ class DisplayableItemList extends StatelessWidget {
             // mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               _buildPoster(index),
-              ..._buildTexts(index),
+              // ..._buildTexts(index),
             ],
           ),
         );
@@ -50,26 +52,40 @@ class DisplayableItemList extends StatelessWidget {
   }
 
   Widget _buildPoster(int index) {
-    return AspectRatio(
-      aspectRatio: 1 / 1.5,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10.0),
-        child: items[index].posterPath != null
-            ? Image.network(
-                imageUrlGenerator(items[index].posterPath!),
-                fit: BoxFit.cover,
-              )
-            : null,
+    return Expanded(
+      child: AspectRatio(
+        aspectRatio: 1 / 1.5,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10.0),
+          child: items[index].posterPath != null
+              ? Image.network(
+                  imageUrlGenerator(items[index].posterPath!),
+                  fit: BoxFit.cover,
+                )
+              : null,
+        ),
       ),
     );
   }
 
   List<Widget> _buildTexts(int index) {
     List<Widget> it = [];
-    it.add(Text(items[index].title));
+    it.add(
+      Text(
+        items[index].title,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
 
     if (items[index].subtitle != null) {
-      it.add(Text(items[index].subtitle!));
+      it.add(
+        Text(
+          items[index].subtitle!,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+      );
     }
 
     return it;

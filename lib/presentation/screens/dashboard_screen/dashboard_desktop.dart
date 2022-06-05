@@ -2,11 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:watched_it_2/api/V3/configuration/interfaces/iapi_configuration.dart';
-import 'package:watched_it_2/api/V3/movies/interfaces/imovie_repository.dart';
 import 'package:watched_it_2/api/V3/movies/interfaces/imovies_now_playing.dart';
 import 'package:watched_it_2/api/V3/movies/interfaces/imovies_popular.dart';
+import 'package:watched_it_2/api/V3/movies/interfaces/imovies_upcoming.dart';
 import 'package:watched_it_2/api/interfaces/iimage_url_provider.dart';
+import 'package:watched_it_2/models/idisplayable.dart';
 import 'package:watched_it_2/models/movie/movie_model.dart';
 import 'package:watched_it_2/models/paged_results_model.dart';
 import 'package:watched_it_2/presentation/blocs/api_fetch_bloc/api_fetch_state.dart';
@@ -19,25 +19,78 @@ class DashboardDesktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        BlocProvider(
-          create: (context) => ApiFetchBloc<PagedResults<Movie>>(
-            dataSource: RepositoryProvider.of<INowPlayingMovies>(context)
-                .getNowPlayingMovies,
-          ),
-          lazy: false,
-          child: BlocBuilder<ApiFetchBloc<PagedResults<Movie>>,
-              ApiFetchState<PagedResults<Movie>>>(
-            bloc: ApiFetchBloc<PagedResults<Movie>>(
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          BlocProvider(
+            create: (context) => ApiFetchBloc<PagedResults<Movie>>(
               dataSource: RepositoryProvider.of<INowPlayingMovies>(context)
                   .getNowPlayingMovies,
             ),
+            lazy: false,
+            child: const MediaList<Movie, PagedResults<Movie>>(
+              listName: "Now playing movies",
+            ),
+          ),
+          BlocProvider(
+            create: (context) => ApiFetchBloc<PagedResults<Movie>>(
+              dataSource: RepositoryProvider.of<IMoviesPopular>(context)
+                  .getPopularMovies,
+            ),
+            lazy: false,
+            child: const MediaList<Movie, PagedResults<Movie>>(
+              listName: "Popular Movies",
+            ),
+          ),
+          BlocProvider(
+            create: (context) => ApiFetchBloc<PagedResults<Movie>>(
+              dataSource: RepositoryProvider.of<IMoviesUpcoming>(context)
+                  .getUpcomingMovies,
+            ),
+            lazy: false,
+            child: const MediaList<Movie, PagedResults<Movie>>(
+              listName: "Upcoming Movies",
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MediaList<V extends IDisplayable, T extends PagedResults<V>>
+    extends StatelessWidget {
+  const MediaList({
+    Key? key,
+    required this.listName,
+  }) : super(key: key);
+
+  final String listName;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            listName,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const Divider(
+            height: 5.0,
+          ),
+          const SizedBox(
+            height: 5.0,
+          ),
+          BlocBuilder<ApiFetchBloc<T>, ApiFetchState<T>>(
+            bloc: RepositoryProvider.of<ApiFetchBloc<T>>(context),
             builder: (context, state) {
-              if (state is ApiFetchLoading<PagedResults<Movie>>) {
+              if (state is ApiFetchLoading<T>) {
                 return const CircularProgressIndicator();
               }
-              if (state is ApiFetchSuccess<PagedResults<Movie>>) {
+              if (state is ApiFetchSuccess<T>) {
                 return SizedBox(
                   height: 200.0,
                   child: DisplayableItemList(
@@ -56,23 +109,8 @@ class DashboardDesktop extends StatelessWidget {
               return const Text("asd");
             },
           ),
-        ),
-        BlocProvider(
-          create: (context) => ApiFetchBloc<PagedResults<Movie>>(
-            dataSource:
-                RepositoryProvider.of<IMoviesPopular>(context).getPopularMovies,
-          ),
-          lazy: false,
-          child: Builder(builder: (context) {
-            return Text(
-              context
-                  .read<ApiFetchBloc<PagedResults<Movie>>>()
-                  .runtimeType
-                  .toString(),
-            );
-          }),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
