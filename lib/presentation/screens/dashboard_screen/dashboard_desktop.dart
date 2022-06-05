@@ -11,6 +11,7 @@ import 'package:watched_it_2/models/movie/movie_model.dart';
 import 'package:watched_it_2/models/paged_results_model.dart';
 import 'package:watched_it_2/presentation/blocs/api_fetch_bloc/api_fetch_state.dart';
 import 'package:watched_it_2/presentation/screens/dashboard_screen/components/displayable_item_list/displayable_item_list.dart';
+import 'package:watched_it_2/presentation/shared_widgets/menu_list.dart';
 
 import '../../blocs/api_fetch_bloc/api_fetch_bloc.dart';
 
@@ -19,41 +20,155 @@ class DashboardDesktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          BlocProvider(
-            create: (context) => ApiFetchBloc<PagedResults<Movie>>(
-              dataSource: RepositoryProvider.of<INowPlayingMovies>(context)
-                  .getNowPlayingMovies,
-            ),
-            lazy: false,
-            child: const MediaList<Movie, PagedResults<Movie>>(
-              listName: "Now playing movies",
-            ),
+    return Row(
+      children: [
+        Expanded(
+          flex: 15,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  // horizontal: 8.0,
+                  vertical: 20.0,
+                ),
+                child: RichText(
+                  text: TextSpan(
+                      style: Theme.of(context).textTheme.titleLarge,
+                      children: <TextSpan>[
+                        const TextSpan(text: "Watched "),
+                        TextSpan(
+                          text: "It ",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        const TextSpan(text: "2"),
+                      ]),
+                ),
+              ),
+              const Expanded(
+                child: MenuList(
+                  sections: [
+                    MenuSection(
+                      items: [
+                        MenuListItem(
+                          index: 0,
+                          title: Text("Movies"),
+                          icon: Icon(
+                            Icons.movie,
+                          ),
+                        ),
+                        MenuListItem(
+                          index: 1,
+                          title: Text("Tv series"),
+                          icon: Icon(
+                            Icons.movie,
+                          ),
+                        ),
+                      ],
+                      title: Text("Media"),
+                    ),
+                    MenuSection(
+                      items: [
+                        MenuListItem(
+                          index: 2,
+                          title: Text("My account"),
+                          icon: Icon(
+                            Icons.account_circle_outlined,
+                          ),
+                        ),
+                        MenuListItem(
+                          index: 3,
+                          title: Text("My lists"),
+                          icon: Icon(
+                            Icons.list,
+                          ),
+                        ),
+                      ],
+                      title: Text("User"),
+                    ),
+                    MenuSection(
+                      items: [
+                        MenuListItem(
+                          index: 4,
+                          title: Text("Settings"),
+                          icon: Icon(
+                            Icons.settings,
+                          ),
+                        ),
+                      ],
+                      title: Text("General"),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          BlocProvider(
-            create: (context) => ApiFetchBloc<PagedResults<Movie>>(
-              dataSource: RepositoryProvider.of<IMoviesPopular>(context)
-                  .getPopularMovies,
-            ),
-            lazy: false,
-            child: const MediaList<Movie, PagedResults<Movie>>(
-              listName: "Popular Movies",
-            ),
+        ),
+        const VerticalDivider(
+          // height: double.infinity,
+          thickness: 1.5,
+          // indent: 8.0,
+          // endIndent: 8.0,
+          // color: Colors.blue,
+        ),
+        Expanded(
+          flex: 85,
+          child: Column(
+            children: [
+              Row(
+                children: const [
+                  Text("Asd"),
+                  Text("Asd"),
+                  Text("Asd"),
+                ],
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      BlocProvider(
+                        create: (context) => ApiFetchBloc<PagedResults<Movie>>(
+                          dataSource:
+                              RepositoryProvider.of<IMoviesUpcoming>(context)
+                                  .getUpcomingMovies,
+                        ),
+                        lazy: false,
+                        child: const MediaList<Movie, PagedResults<Movie>>(
+                          listName: "Upcoming Movies",
+                        ),
+                      ),
+                      BlocProvider(
+                        create: (context) => ApiFetchBloc<PagedResults<Movie>>(
+                          dataSource:
+                              RepositoryProvider.of<INowPlayingMovies>(context)
+                                  .getNowPlayingMovies,
+                        ),
+                        lazy: false,
+                        child: const MediaList<Movie, PagedResults<Movie>>(
+                          listName: "Now playing movies",
+                        ),
+                      ),
+                      BlocProvider(
+                        create: (context) => ApiFetchBloc<PagedResults<Movie>>(
+                          dataSource:
+                              RepositoryProvider.of<IMoviesPopular>(context)
+                                  .getPopularMovies,
+                        ),
+                        lazy: false,
+                        child: const MediaList<Movie, PagedResults<Movie>>(
+                          listName: "Popular Movies",
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-          BlocProvider(
-            create: (context) => ApiFetchBloc<PagedResults<Movie>>(
-              dataSource: RepositoryProvider.of<IMoviesUpcoming>(context)
-                  .getUpcomingMovies,
-            ),
-            lazy: false,
-            child: const MediaList<Movie, PagedResults<Movie>>(
-              listName: "Upcoming Movies",
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -106,7 +221,7 @@ class MediaList<V extends IDisplayable, T extends PagedResults<V>>
                   ),
                 );
               }
-              return const Text("asd");
+              return Center(child: Text("Couldn't load $listName"));
             },
           ),
         ],
